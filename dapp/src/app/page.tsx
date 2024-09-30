@@ -1,7 +1,12 @@
+"use client";
+// import Footer from "src/components/Footer";
+// import { ONCHAINKIT_LINK } from "src/links";
 import { useAccount } from "wagmi";
+// import LoginButton from "../components/LoginButton";
 import { Basenames } from "../components/basenames";
+import { ConnectWallet } from "@coinbase/onchainkit/wallet";
 
-export default async function Page() {
+export default function Page() {
   const { address } = useAccount();
   const account = useAccount();
 
@@ -15,13 +20,12 @@ export default async function Page() {
             </h1>
           </a>
           <div className="flex items-center gap-3">
-            {/* {!address && <ConnectWallet />} Connect wallet button */}
+            {!address && <ConnectWallet />}
             {account.status === "connected" && (
               <div>
                 <Basenames address={account.addresses?.[0]} />
               </div>
             )}
-            {/* <h1>{result}</h1> */}
           </div>
         </div>
       </section>
