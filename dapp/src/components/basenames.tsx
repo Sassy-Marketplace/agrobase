@@ -1,7 +1,22 @@
 import React from "react";
-import { Avatar, Identity, Name, Address } from "@coinbase/onchainkit/identity";
-import { base } from "viem/chains";
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBasename,
+  WalletDropdownFundLink,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from "@coinbase/onchainkit/wallet";
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from "@coinbase/onchainkit/identity";
 import "@coinbase/onchainkit/styles.css";
+import { base, baseSepolia } from "viem/chains";
 
 interface DisplayBasenameProps {
   address: `0x${string}` | undefined;
@@ -9,14 +24,29 @@ interface DisplayBasenameProps {
 
 export function Basenames({ address }: DisplayBasenameProps) {
   return (
-    <Identity
-      address={address}
-      chain={base}
-      schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
-    >
-      <Avatar address={address} chain={base} />
-      <Name address={address} chain={base} />
-      <Address />
-    </Identity>
+    <Wallet>
+      <ConnectWallet>
+        <Avatar address={address} chain={base} />
+        <Name address={address} chain={base} />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity
+          address={address}
+          chain={base}
+          schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+        >
+          <Avatar address={address} chain={base} />
+          <Name address={address} chain={base} />
+          <Address />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownBasename />
+        <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+          Smart Wallet Dashboard
+        </WalletDropdownLink>
+        <WalletDropdownFundLink />
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
   );
 }
