@@ -67,4 +67,16 @@ contract AgroMarketPlaceTest is Test {
         vm.prank(seller);
         agroMarketPlace.purchaseItem{value: 1 ether}(1);
     }
+
+    function testFetchMarketItems() public {
+        testListItemForSale();
+        AgroMarketPlace.MarketPlaceItem[] memory items = agroMarketPlace
+            .fetchMarketItems();
+
+        assertEq(items.length, 1);
+        assertEq(items[0].name, "Green Apple");
+        assertEq(items[0].sold, false);
+    }
+
+    receive() external payable {}
 }

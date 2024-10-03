@@ -84,7 +84,8 @@ contract AgroMarketPlace is ReentrancyGuard {
         );
     }
 
-    // Querying the marketplace items
+    // Todo: take into consideration the amount a user wants to purchase
+
     function purchaseItem(uint256 itemId) public payable nonReentrant {
         MarketPlaceItem storage item = idToMarketPlaceItem[itemId];
 
@@ -123,7 +124,25 @@ contract AgroMarketPlace is ReentrancyGuard {
         );
     }
 
-    // Todo: take into consideration the amount a user wants to purchase
+    // Querying the marketplace items
+    function fetchMarketItems() public view returns (MarketPlaceItem[] memory) {
+        uint256 itemCount = _itemIds.current();
+        uint256 unsoldItemsCount = (_itemIds.current()) -
+            (_itemsSold.current());
+        uint256 currentIndex = 0;
+        MarketPlaceItem[] memory items = new MarketPlaceItem[](
+            unsoldItemsCount
+        );
 
-    // Purchase the marketplace items
+        for (uint256 i = 0; i < itemCount; i++) {
+            uint256 currentId = idToMarketPlaceItem[i + 1].itemId;
+            MarketPlaceItem storage currentItem = idToMarketPlaceItem[
+                currentId
+            ];
+            items[currentIndex] = currentItem;
+            currentIndex++;
+        }
+
+        return items;
+    }
 }
