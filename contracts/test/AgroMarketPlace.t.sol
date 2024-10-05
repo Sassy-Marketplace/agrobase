@@ -7,6 +7,7 @@ import "../lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "./MockNFT.sol";
 
 contract AgroMarketPlaceTest is Test {
+    AgroMarketPlaceFactory agroMarketPlaceFactory;
     AgroMarketPlace agroMarketPlace;
     MockNFT nft;
 
@@ -19,7 +20,21 @@ contract AgroMarketPlaceTest is Test {
         seller = address(0xBEEF);
         buyer = address(0xCAFE);
 
-        agroMarketPlace = new AgroMarketPlace();
+        // Deploy the factory
+        agroMarketPlaceFactory = new AgroMarketPlaceFactory();
+
+        // Create a  new marketplace insatnce
+        agroMarketPlaceFactory.createMarketPlaceInstance();
+
+        // Get the deployed instance's address using the mapping
+
+        address agroMarketPlaceAddress = agroMarketPlaceFactory.getMarketPlace(
+            owner
+        );
+
+        // Cast address to an AgroMarketPlace insatnce
+        agroMarketPlace = AgroMarketPlace(payable(agroMarketPlaceAddress));
+
         nft = new MockNFT();
 
         // Mint an NFT to the seller
@@ -46,7 +61,7 @@ contract AgroMarketPlaceTest is Test {
         vm.prank(buyer);
         agroMarketPlace.purchaseItem{value: 1 ether}(1);
 
-        (, , , , , , bool sold) = agroMarketPlace.idToMarketPlaceItem(1);
+        (, , , , , , , bool sold) = agroMarketPlace.idToMarketPlaceItem(1);
         assertTrue(sold);
     }
 

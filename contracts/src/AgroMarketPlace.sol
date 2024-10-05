@@ -5,6 +5,28 @@ import "../lib/openzeppelin-contracts/contracts/utils/Counters.sol";
 import "../lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "../lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
 
+contract AgroMarketPlaceFactory {
+    mapping(address => address) public agroMarketPlaceInstances;
+    event MarketPlaceCreated(
+        address indexed owner,
+        address indexed agroMarketPlaceAddress
+    );
+
+    function createMarketPlaceInstance() public {
+        AgroMarketPlace newAgroMarketPlace = new AgroMarketPlace(
+            payable(msg.sender)
+        );
+        agroMarketPlaceInstances[msg.sender] = address(newAgroMarketPlace);
+        emit MarketPlaceCreated(msg.sender, address(newAgroMarketPlace));
+    }
+
+    function getMarketPlace(address owner) public view returns (address) {
+        return agroMarketPlaceInstances[owner];
+    }
+
+    receive() external payable {}
+}
+
 contract AgroMarketPlace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
@@ -17,12 +39,17 @@ contract AgroMarketPlace is ReentrancyGuard {
         address payable seller;
         string name;
         uint256 price;
+        bool isForSale;
         bool sold;
     }
 
-    address payable owner;
+    address payable public owner;
 
     mapping(uint256 => MarketPlaceItem) public idToMarketPlaceItem;
+
+    constructor(address payable _owner) {
+        owner = _owner;
+    }
 
     /**
         Events
@@ -34,6 +61,7 @@ contract AgroMarketPlace is ReentrancyGuard {
         string name,
         address seller,
         uint256 price,
+        bool isForSale,
         bool sold
     );
 
@@ -44,6 +72,7 @@ contract AgroMarketPlace is ReentrancyGuard {
         string name,
         address seller,
         uint256 price,
+        bool isForSale,
         bool sold
     );
 
@@ -68,6 +97,7 @@ contract AgroMarketPlace is ReentrancyGuard {
             payable(msg.sender),
             name,
             price,
+            true,
             false
         );
 
@@ -80,6 +110,7 @@ contract AgroMarketPlace is ReentrancyGuard {
             name,
             msg.sender,
             price,
+            true,
             false
         );
     }
@@ -120,6 +151,7 @@ contract AgroMarketPlace is ReentrancyGuard {
             item.name,
             item.seller,
             item.price,
+            true,
             true
         );
     }
@@ -145,4 +177,6 @@ contract AgroMarketPlace is ReentrancyGuard {
 
         return items;
     }
+
+    receive() external payable {}
 }
