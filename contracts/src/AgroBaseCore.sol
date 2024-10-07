@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "./AgroBaseProfileNFT.sol";
+import {AgroBaseProfile} from "./AgroBaseProfileNFT.sol";
 import "./CampaignFactory.sol";
 import "./MarketplaceFactory.sol";
 import "./AssetFactory.sol";
@@ -9,38 +9,53 @@ import "./interfaces/IERC6551Registry.sol";
 import "./interfaces/IImplementation.sol";
 
 contract AgroBaseCore {
-    address public owner;
-    AgroBaseProfile public agroBaseProfile;
-    AssetFactory public assetFactory;
     IERC6551Registry public iRegistry;
     IImplementation public iAccountProxy;
     CampaignFactory public campaignFactory;
     MarketplaceFactory public marketplaceFactory;
+    uint16 businessIds;
+    uint16 userIds;
 
-    mapping(address => bool) public isFarmer;
-    mapping(address => bool) public isInvestor;
+    struct BusinessProfileDetails{
+        string businessName;
+        string businessDescription;
+        string businessLocation;
+        string businessSymbol;
+        address businessOwner;
+        address store;
+        address tokenboundAddr;
+        address campaignStore;
+        uint16 profileID;
+    }
+
     mapping(address => bool) public isBusiness;
+    mapping(address => bool) public isInvestor;
+    mapping(uint16 => BusinessProfileDetails) public allBusinessProfiles;
 
-    event FarmerOnboarded(address indexed farmer);
     event InvestorOnboarded(address indexed investor);
     event BusinessOnboarded(address indexed business);
 
-    constructor(address _campaignFactory, address _agroBaseProfileNft, address _assetFactory, address _marketplaceFactory) {
-        assetFactory = new AssetFactory(_assetFactory);
+    constructor(address _campaignFactory, address _marketplaceFactory) {
         campaignFactory = new CampaignFactory(_campaignFactory);
         marketplaceFactory = new MarketplaceFactory(_marketplaceFactory);
+        businessIds = 0;
+        userIds = 0;
     }
 
-    // Onboard Farmers and Automatically Create Marketplace
-    function onboardFarmer(address farmer, address _iRegistry, address _accountProxy,  string memory name, string memory farmLocation, string memory _symbol) public returns(address _profile, address _marketPlace, address _campaign, address _agroBaseProfile) {
-        AgroBaseProfile _agroBaseProfileNft = new AgroBaseProfile(farmer, name, _symbol);
+    // Onboard AgroBusiness and Automatically Create Marketplace and Campaign
+    function onboardBusiness(address _iRegistry, address _accountProxy,  string memory name, string memory description, string memory farmLocation, string memory _symbol) public returns(address _profile, address _marketPlace, address _campaign, address _agroBaseProfile) {
+        const business = msg.sender;
+        AgroBaseProfile _agroBaseProfileNft = new AgroBaseProfile(business, name, _symbol);
         _agroBaseProfile = address(_agroBaseProfileNft)
-        _iRegistry.createAccount(_accountProxy, "", 8435, _agroBaseProfile, 1);
-        marketplaceFactory.createMarketplace(farmer);
-        isFarmer[farmer] = true;
-        tokenBoundAccount.createAccount(farmer);
-        onchainIdentity.createIdentity(farmer, name, farmLocation);
-        emit FarmerOnboarded(farmer);
+       let tokenbound = _iRegistry.createAccount(_accountProxy, "", 8435, _agroBaseProfile, 1);
+       _profile = address(tokenbound);
+        let market = marketplaceFactory.createMarketplace(business);
+        let campaign = campaignFactory.createAccount(business);
+        businessIds += 1;
+        BusinessProfileDetails profileDetails = BusinessProfileDetails(name,description,farmLocation,_symbol,msg.sender,market,_profile, campaign, businessIds);
+        allBusinessProfiles[businessIds] = profileDetails;
+        isBusiness[business] = true;
+        emit BusinessOnboarded(business);
     }
 
     // Onboard Investors
