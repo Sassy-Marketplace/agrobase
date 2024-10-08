@@ -3,8 +3,8 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "../src/CampaignFactory.sol";
-import "../src/IERC20.sol";
-import "../src/IERC721.sol";
+import "../src/interfaces/IERC20.sol";
+import "../src/interfaces/IERC721.sol";
 
 contract MockERC20 is IERC20 {
     mapping(address => uint256) private _balances;
@@ -89,6 +89,7 @@ contract TestCampaignFactory is Test {
             "Test Campaign",
             30 days,
             100 ether,
+            1000,
             address(token),
             address(nftToken)
         );
@@ -102,6 +103,7 @@ contract TestCampaignFactory is Test {
             "Test Campaign",
             30 days,
             100 ether,
+            1000,
             address(token),
             address(nftToken)
         );
@@ -126,24 +128,59 @@ contract TestCampaignFactory is Test {
         // Check investor details
         (uint256 invested, uint256 nftId) = Campaign(campaignAddress).getInvestorDetails(user);
         assertEq(invested, 10 ether, "Invested amount not recorded correctly");
-        assertEq(nftId, 1, "Incorrect NFT ID");
+        assertEq(nftId, Campaign(campaignAddress).investorNftCount(user), "Incorrect NFT ID");
     }
 
     function testGetAllCampaigns() public {
-        factory.createCampaign("Test Campaign 1", 30 days, 100 ether, address(token), address(nftToken));
-        factory.createCampaign("Test Campaign 2", 30 days, 200 ether, address(token), address(nftToken));
+        factory.createCampaign("Test Campaign 1", 30 days, 100 ether, 1000, address(token), address(nftToken));
+        factory.createCampaign("Test Campaign 2", 30 days, 200 ether, 1000, address(token), address(nftToken));
 
         address[] memory campaigns = factory.getAllCampaigns();
         assertEq(campaigns.length, 2, "Campaign count mismatch");
     }
 
     function testEndCampaign() public {
-        bytes32 campaignId = factory.createCampaign("Test Campaign", 30 days, 100 ether, address(token), address(nftToken));
+        bytes32 campaignId = factory.createCampaign("Test Campaign", 30 days, 100 ether, 1000, address(token), address(nftToken));
         address campaignAddress = factory.campaigns(campaignId);
 
         Campaign campaign = Campaign(campaignAddress);
         vm.warp(block.timestamp + 31 days);
         campaign.endCampaign();
         assertTrue(!campaign.isActive(), "Campaign should be inactive after ending");
+    }
+
+    function testInvestAfterCampaignEnds() public {
+        bytes32 campaignId = factory.createCampaign("Test Campaign", 30 days, 100 ether, 1000, address(token), address(nftToken));
+        address campaignAddress = factory.campaigns(campaignId);
+
+        // Fast forward time to end the campaign
+        vm.warp(block.timestamp + 31 days);
+        Campaign campaign = Campaign(campaignAddress);
+        campaign.endCampaign();
+
+        // Attempt to invest after the campaign has ended
+        vm.expectRevert("Campaign is not active");
+        Campaign(campaignAddress).invest(10 ether);
+    }
+
+    function testInvestWithInsufficientAllowance() public {
+        bytes32 campaignId = factory.createCampaign("Test Campaign", 30 days, 100 ether, 1000, address(token), address(nftToken));
+        address campaignAddress = factory.campaigns(campaignId);
+
+        // Try investing without enough allowance
+        vm.expectRevert("Insufficient allowance");
+        Campaign(campaignAddress).invest(10 ether);
+    }
+
+    function testCampaignRevertsWhenInsufficientFunds() public {
+        bytes32 campaignId = factory.createCampaign("Test Campaign", 30 days, 100 ether, 1000, address(token), address(nftToken));
+        address campaignAddress = factory.campaigns(campaignId);
+
+        // Approve insufficient amount
+        token.approve(campaignAddress, 5 ether);
+
+        // Try to invest more than approved amount
+        vm.expectRevert("Insufficient allowance");
+        Campaign(campaignAddress).invest(10 ether);
     }
 }

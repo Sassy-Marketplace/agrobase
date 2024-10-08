@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "forge-std/Test.sol";
 import "../src/AgroMarketPlace.sol";
-import "../lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./MockNFT.sol";
 
 contract AgroMarketPlaceTest is Test {
@@ -24,12 +24,12 @@ contract AgroMarketPlaceTest is Test {
         agroMarketPlaceFactory = new AgroMarketPlaceFactory();
 
         // Create a  new marketplace insatnce
-        agroMarketPlaceFactory.createMarketPlaceInstance();
+        agroMarketPlaceFactory.createMarketPlaceInstance(seller);
 
         // Get the deployed instance's address using the mapping
 
         address agroMarketPlaceAddress = agroMarketPlaceFactory.getMarketPlace(
-            owner
+            seller
         );
 
         // Cast address to an AgroMarketPlace insatnce

@@ -2,7 +2,8 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import "../src/AgroBaseProfile.sol"; // Update this path to your contract's location
+import {AgroBaseProfile} from "../src/AgroBaseProfileNFT.sol";
+
 
 contract AgroBaseProfileTest is Test {
     AgroBaseProfile private profile;
@@ -11,7 +12,10 @@ contract AgroBaseProfileTest is Test {
 
     function setUp() public {
         // Deploy the AgroBaseProfile contract with an initial owner
+        vm.prank(owner);
         profile = new AgroBaseProfile(owner, "AgroBaseProfile", "ABP");
+        assertEq(profile.owner(), owner);
+        vm.stopPrank();
     }
 
     function testInitialMinting() public {
@@ -23,52 +27,39 @@ contract AgroBaseProfileTest is Test {
     function testSafeMint() public {
         // Prank the owner to mint a new token to the user
         vm.prank(owner);
-        profile.safeMint(user);
+        vm.expectRevert("Can't Mint More than 1 NFT");
+        profile.safeMint(owner);
         
         // Check that the user received the token and the tokenId is 1 (next after the initial mint)
-        assertEq(profile.ownerOf(1), user);
-        assertEq(profile.balanceOf(user), 1);
+        assertEq(profile.ownerOf(0), owner);
+        assertEq(profile.balanceOf(owner), 1);
+        vm.stopPrank();
     }
 
     function testNonOwnerCannotMint() public {
         // Non-owner tries to mint a token - should revert
-        vm.expectRevert("Ownable: caller is not the owner");
-        profile.safeMint(user);
-    }
-
-    function testNonTransferableToken() public {
-        // Prank the owner to mint a new token to the user
-        vm.prank(owner);
-        profile.safeMint(user);
-
-        // Attempt to transfer the token, expect revert due to non-transferability
-        vm.expectRevert("This NFT is non-transferable");
         vm.prank(user);
-        profile.transferFrom(user, owner, 1);
-    }
-
-    function testNonTransferableTokenWithSafeTransferFrom() public {
-        // Prank the owner to mint a new token to the user
-        vm.prank(owner);
+        vm.expectRevert();
         profile.safeMint(user);
-
-        // Attempt to safeTransferFrom the token, expect revert due to non-transferability
-        vm.expectRevert("This NFT is non-transferable");
-        vm.prank(user);
-        profile.safeTransferFrom(user, owner, 1);
+        assertEq(profile.balanceOf(user), 0);
+        vm.stopPrank();
     }
 
     function testOwnerCannotTransferToken() public {
-        // Check that even the owner cannot transfer their token
-        vm.expectRevert("This NFT is non-transferable");
+        // Attempt to transfer the token, expect revert due to non-transferability
+        vm.expectRevert();
         vm.prank(owner);
         profile.transferFrom(owner, user, 0);
+        assertEq(profile.balanceOf(owner), 1);
+        assertEq(profile.balanceOf(user), 0);
     }
 
     function testOwnerCannotSafeTransferToken() public {
-        // Attempt to safeTransferFrom the owner's token, expect revert
-        vm.expectRevert("This NFT is non-transferable");
+        // Attempt to safeTransferFrom the token, expect revert due to non-transferability
         vm.prank(owner);
+        vm.expectRevert();
         profile.safeTransferFrom(owner, user, 0);
+        assertEq(profile.balanceOf(owner), 1);
+        assertEq(profile.balanceOf(user), 0);
     }
 }

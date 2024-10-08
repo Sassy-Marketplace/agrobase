@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.4;
-import "../lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
-import "../lib/openzeppelin-contracts/contracts/utils/Counters.sol";
-import "../lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "../lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
+pragma solidity ^0.8.20;
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract AgroMarketPlaceFactory {
     mapping(address => address) public agroMarketPlaceInstances;
@@ -12,12 +11,12 @@ contract AgroMarketPlaceFactory {
         address indexed agroMarketPlaceAddress
     );
 
-    function createMarketPlaceInstance() public {
+    function createMarketPlaceInstance(address owner) public {
         AgroMarketPlace newAgroMarketPlace = new AgroMarketPlace(
-            payable(msg.sender)
+            payable(owner)
         );
-        agroMarketPlaceInstances[msg.sender] = address(newAgroMarketPlace);
-        emit MarketPlaceCreated(msg.sender, address(newAgroMarketPlace));
+        agroMarketPlaceInstances[owner] = address(newAgroMarketPlace);
+        emit MarketPlaceCreated(owner, address(newAgroMarketPlace));
     }
 
     function getMarketPlace(address owner) public view returns (address) {
@@ -28,9 +27,8 @@ contract AgroMarketPlaceFactory {
 }
 
 contract AgroMarketPlace is ReentrancyGuard {
-    using Counters for Counters.Counter;
-    Counters.Counter private _itemIds;
-    Counters.Counter private _itemsSold;
+    uint16 private _itemIds;
+    uint16 private _itemsSold;
 
     struct MarketPlaceItem {
         uint256 itemId;
@@ -87,8 +85,8 @@ contract AgroMarketPlace is ReentrancyGuard {
         IERC721 nft = IERC721(nftContract);
         require(nft.ownerOf(tokenId) == msg.sender, "Caller is not owner");
 
-        _itemIds.increment();
-        uint256 itemId = _itemIds.current();
+        _itemIds++;
+        uint256 itemId = _itemIds;
 
         idToMarketPlaceItem[itemId] = MarketPlaceItem(
             itemId,
@@ -142,7 +140,7 @@ contract AgroMarketPlace is ReentrancyGuard {
 
         item.sold = true;
 
-        _itemsSold.increment();
+        _itemsSold++;
 
         emit MarketPlaceItemSold(
             itemId,
@@ -158,9 +156,9 @@ contract AgroMarketPlace is ReentrancyGuard {
 
     // Querying the marketplace items
     function fetchMarketItems() public view returns (MarketPlaceItem[] memory) {
-        uint256 itemCount = _itemIds.current();
-        uint256 unsoldItemsCount = (_itemIds.current()) -
-            (_itemsSold.current());
+        uint256 itemCount = _itemIds;
+        uint256 unsoldItemsCount = (_itemIds) -
+            (_itemsSold);
         uint256 currentIndex = 0;
         MarketPlaceItem[] memory items = new MarketPlaceItem[](
             unsoldItemsCount

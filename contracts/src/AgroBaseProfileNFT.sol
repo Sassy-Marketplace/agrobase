@@ -6,23 +6,21 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AgroBaseProfile is ERC721, Ownable {
     uint256 private _nextTokenId;
-
-    constructor(address initialOwner, string memory _name, string memory _symbol)
+    constructor(address business, string memory _name, string memory _symbol)
         ERC721(_name, _symbol)
-        Ownable(initialOwner)
-    { safeMint(initialOwner);}
+        Ownable(business)
+    {   _nextTokenId = 0;
+        safeMint(business);
+    }
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address user) public {
+        require(_nextTokenId < 1, "Can't Mint More than 1 NFT");
         uint256 tokenId = _nextTokenId++;
-        _safeMint(to, tokenId);
+        _safeMint(user, tokenId);
     }
 
-        // Override transfer functions to prevent transfer
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal pure {
-        require(from == address(0) || to == address(0), "This NFT is non-transferable");
+    function transferFrom(address from, address to, uint256 tokenId) public virtual override onlyOwner {
+        require(from == address(0) || to == address(0), "Can't Transfer");
     }
+
 }
