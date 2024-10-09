@@ -4,7 +4,7 @@ import { coinbaseWallet, injected } from "wagmi/connectors";
 
 export function getConfig() {
   return createConfig({
-    chains: [base, baseSepolia],
+    chains: [/*base,*/ baseSepolia],
     connectors: [
       injected(),
       coinbaseWallet({
@@ -17,7 +17,7 @@ export function getConfig() {
     }),
     ssr: true,
     transports: {
-      [base.id]: http(),
+      // [base.id]: http(),
       [baseSepolia.id]: http(),
     },
   });
