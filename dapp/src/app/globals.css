@@ -1,4 +1,23 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  overflow: hidden;
+}
+
+html, body {
+  overflow-y: scroll; 
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and newer Edge */
+}
+
+/* :root {
   background-color: #181818;
   color: rgba(255, 255, 255, 0.87);
   color-scheme: light dark;
@@ -18,4 +37,4 @@
     background-color: #f8f8f8;
     color: #181818;
   }
-}
+} */
