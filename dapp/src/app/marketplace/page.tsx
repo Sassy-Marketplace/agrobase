@@ -1,8 +1,10 @@
 "use client"
 import { useState } from "react"
-import styles from "../../components/header/header.module.css"
+import styles from "@/components/header/header.module.css"
 import profile from "../../../assets/profile.jpg";
 import Image from "next/image";
+import { ProductsDIsplay } from "@/components";
+import {products} from "./dummy"
 // 03ED0E
 
 const MarketPlacePage: React.FC = () => {
@@ -68,7 +70,7 @@ const MarketPlacePage: React.FC = () => {
                 </section>
 
                 {/* {/* This should contain trending products */}
-                <section className="h-full">
+                <section className="h-full w-full">
                     <div className="flex flex-col items-center justify-center h-[300px] text-center gap-6">
                         {/* Trending products heading */}
                         <h2 className="text-4xl font-bold">
@@ -83,12 +85,25 @@ const MarketPlacePage: React.FC = () => {
                         {/* Search Bar */}
                         <div className="flex w-full max-w-lg justify-center items-center">
                             <input
-                            type="text"
-                            placeholder="Search Products"
-                            className="w-[450px] text-center px-6 py-2 text-lg text-gray-300 bg-transparent border border-gray-400 rounded-full focus:outline-none focus:border-[#03ED0E]"
+                                type="text"
+                                placeholder="Search Products"
+                                className="w-[450px] text-center px-6 py-2 text-lg text-gray-300 bg-transparent border border-gray-400 rounded-full focus:outline-none focus:border-[#03ED0E]"
                             />
                         </div>
-                        </div>
+                    </div>
+
+                    {/* Display Trending products */}
+                    
+                    <div className="flex flex-col justify-between items-center">
+                        <div className="w-10/12 flex justify-between items-center">
+                        <ProductsDIsplay products={products}/>
+                    </div>
+                    </div>
+
+                    {/* Other products */}
+                    <div className="flex flex-col ">
+
+                    </div>
                 </section>
             </main>
 
