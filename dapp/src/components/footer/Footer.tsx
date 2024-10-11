@@ -1,9 +1,19 @@
+"use client"
 import Link from "next/link"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {SocialIcon} from "react-social-icons"
 import {MessageSquare} from "lucide-react"
 
 const Footer: React.FC =() => {
+
+  const [pathName, setPathName] = useState("")
+
+  useEffect(() => {
+    if(typeof window !== "undefined"){
+      setPathName(window.location?.pathname);
+    }
+  }, [])
+
     return(
     <footer className="bg-[#042B2B] text-white py-8  border-t border-[#2B2B2B] w-full flex flex-col items-center">
      <div className="w-10/12">
@@ -30,8 +40,8 @@ const Footer: React.FC =() => {
           <h2 className="text-2xl font-bold mb-4">Explore</h2>
           <ul className="space-y-2 text-sm text-gray-400">
             <li >
-                {/* <Link className="hover:underline" href={window?.location?.pathname == "/marketplace"? "/": "marketplace"}>
-                {window?.location?.pathname == "/marketplace"? "Home": "Marketplace"}</Link> */}
+                <Link className="hover:underline" href={pathName == "/marketplace"? "/": "marketplace"}>
+                {pathName == "/marketplace"? "Home": "Marketplace"}</Link>
             </li>
             <li >
                 <Link className="hover:underline" href="rankings">Rankings</Link>

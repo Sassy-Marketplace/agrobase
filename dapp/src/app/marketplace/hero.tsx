@@ -12,7 +12,7 @@ const MarketPlaceHero: React.FC = () => {
                     <input
                     type="text"
                     placeholder="Search your favourite Agro Products"
-                    className="w-full py-4 pl-6 pr-14 text-gray-300 bg-[#1E403B] rounded-[20px] border-none focus:outline-none focus:ring-2 focus:ring-green-400"
+                    className="w-full py-4 pl-6 pr-14 text-gray-300 bg-[#042B2B] rounded-[20px] border-none ring-2 ring-[#2B2B2B] focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
                     {/* Search Icon */}
                     <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
