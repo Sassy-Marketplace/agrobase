@@ -2,10 +2,10 @@ import {SearchIcon} from "lucide-react"
 
 const MarketPlaceHero: React.FC = () => {
     return(
-        <section className="bg-[#042B2B] w-full flex flex-col py-[50px] px-[50px]">
+        <section className="bg-[#042B2B] w-full flex flex-col py-[50px]">
             <div className="flex flex-col gap-3">
-                <h1 className="text-white font-bold text-5xl">Browse Marketplace</h1>
-                <p className="text-gray-400 font-normal text-[18px] pb-5">Browse through more than 50k Agro-products on the Agrobase Marketplace.</p>
+                <h1 className="text-white font-bold md:text-4xl lg:text-5xl text-3xl text-center md:text-left">Browse Marketplace</h1>
+                <p className="text-gray-400 font-normal text-[18px] pb-5 text-center md:text-left">Browse through more than 50k Agro-products on the Agrobase Marketplace.</p>
 
                 {/* Search Bar */}
                 <div className="relative w-full max-w-2xl">
