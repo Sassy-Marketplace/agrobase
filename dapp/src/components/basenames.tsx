@@ -24,7 +24,7 @@ interface DisplayBasenameProps {
 export function Basenames({ address }: DisplayBasenameProps) {
   return (
     <Wallet>
-      <ConnectWallet className="px-6 py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition w-full">
+      <ConnectWallet>
         {address && (
           <>
           <Avatar address={address} chain={base} />
