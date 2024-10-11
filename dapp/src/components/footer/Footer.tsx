@@ -30,8 +30,8 @@ const Footer: React.FC =() => {
           <h2 className="text-2xl font-bold mb-4">Explore</h2>
           <ul className="space-y-2 text-sm text-gray-400">
             <li >
-                <Link className="hover:underline" href={window?.location?.pathname == "/marketplace"? "/": "marketplace"}>
-                {window?.location?.pathname == "/marketplace"? "Home": "Marketplace"}</Link>
+                {/* <Link className="hover:underline" href={window?.location?.pathname == "/marketplace"? "/": "marketplace"}>
+                {window?.location?.pathname == "/marketplace"? "Home": "Marketplace"}</Link> */}
             </li>
             <li >
                 <Link className="hover:underline" href="rankings">Rankings</Link>
@@ -71,11 +71,11 @@ const Footer: React.FC =() => {
             </div>
 
             {/* Show only on small screens */}
-            <div className="flex sm:hidden shadow-md w-full flex-col gap-5">
+            <div className="sm:flex md:hidden lg:hidden shadow-md w-full flex-col">
                  <input
                 type="email"
                 placeholder="Enter Your Email Address"
-                className="px-4 py-3 bg-white rounded-[25px] text-black placeholder-gray-500 w-full focus:outline-none"
+                className="px-4 py-3 bg-white rounded-[25px] text-black placeholder-gray-500 w-full focus:outline-none mb-[20px]"
                 />
                 {/* Subscribe Button */}
                 <button className="px-6 py-3 bg-[#03ED0E] rounded-[25px]  text-center text-black font-semibold w-full hover:bg-green-500 flex items-center justify-center gap-3">
