@@ -2,7 +2,7 @@
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import {SocialIcon} from "react-social-icons"
-import {MessageSquare} from "lucide-react"
+import {BriefcaseIcon} from "lucide-react"
 
 const Footer: React.FC =() => {
 
@@ -89,7 +89,7 @@ const Footer: React.FC =() => {
                 />
                 {/* Subscribe Button */}
                 <button className="px-6 py-3 bg-[#03ED0E] rounded-[25px]  text-center text-black font-semibold w-full hover:bg-green-500 flex items-center justify-center gap-3">
-                <MessageSquare/> Subscribe
+                <BriefcaseIcon/> Subscribe
                 </button>
             </div>
             </div>

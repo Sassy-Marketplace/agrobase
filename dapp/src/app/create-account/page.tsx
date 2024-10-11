@@ -1,4 +1,4 @@
-import { Footer } from "@/components";
+import { Footer, Header, Navbar } from "@/components";
 import logo from "../../assets/logos/white.png"
 import {UserIcon, BriefcaseIcon, MapPinIcon, LockIcon} from "lucide-react"
 
@@ -6,9 +6,12 @@ const ConnectAccount : React.FC = () => {
 
     return(
         <>
-           <div className="flex flex-col md:flex-row lg:flex-row h-screen bg-[#042B2B] lg:p-4 p-0">
+        <div className="lg:hidden flex flex-col">
+            <Navbar/>
+        </div>
+           <div className="flex flex-col md:flex-row lg:flex-row md:h-screen h-auto bg-[#042B2B] lg:p-4 p-0">
                 {/* Left section with the logo */}
-                <div className="md:w-1/2 w-full bg-[#115436] flex items-center justify-center">
+                <div className="md:w-1/2 w-full bg-[#115436] flex items-center justify-center py-10 md:py-0">
                     <div className="flex items-center justify-center gap-1">
                     <img src={logo.src} alt='Agrobase logo' className='w-50 h-24' />
                     {/* <h2 className="text-white text-xl font-semibold">Agrobase</h2> */}
@@ -16,15 +19,15 @@ const ConnectAccount : React.FC = () => {
                 </div>
 
                 {/* Right section with connect wallet */}
-                <div className="md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center">
-                    <h1 className="text-center text-white text-4xl mb-3 font-bold">Create Account</h1>
-                    <p className="text-center text-gray-400 text-[16px] mb-5">
+                <div className="md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0">
+                    <h1 className="text-left md:text-center text-white text-4xl mb-3 font-bold pl-7 md:pl-0">Create Account</h1>
+                    <p className="text-left md:text-center text-gray-400 text-[16px] mb-5 pl-7 md:pl-0">
                     Welcome! Enter your details and start creating, <br /> purchasing, selling, and investing.
                     </p>
 
                     {/* Form */}
                     <div className="flex flex-col items-center justify-center w-full">
-                    <div className="w-full max-w-xs flex flex-col">
+                    <div className="w-full md:max-w-xs flex flex-col px-7 md:px-0">
                         {/* Username */}
                         <div className="flex items-center bg-white rounded-[20px] mb-4 px-4 py-3 w-full">
                         <UserIcon className="text-gray-400 mr-3" />
@@ -71,7 +74,6 @@ const ConnectAccount : React.FC = () => {
                         </button>
                     </div>
                     </div>
-                    {/*  */}
                 </div>
             </div>
             <div className="lg:hidden sm:flex md:flex flex-col">

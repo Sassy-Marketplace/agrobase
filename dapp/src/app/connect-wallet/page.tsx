@@ -1,5 +1,5 @@
 "use client"
-import { Footer, Header } from '@/components';
+import { Footer, Header, Navbar } from '@/components';
 import React, { useState } from 'react';
 import logo from "../../assets/logos/white.png"
 import { useAccount } from 'wagmi';
@@ -14,9 +14,14 @@ const ConnectionPage: React.FC = () => {
   const account = useAccount();
   // 
    return (
-   <div className="flex h-screen bg-[#042B2B] p-4">
+  <>
+  <div className='lg:hidden flex flex-col'>
+      <Navbar/>
+  </div>
+
+   <div className="flex flex-col md:flex-row lg:flex-row h-screen bg-[#042B2B] lg:p-4 p-0">
       {/* Left section with the logo */}
-      <div className="w-1/2 bg-[#115436] flex items-center justify-center">
+      <div className="md:w-1/2 w-full bg-[#2B2B2B] md:bg-[#115436] flex items-center justify-center py-1 md:py-0">
         <div className="flex flex items-center justify-center gap-1">
           <img src={logo.src} alt='Agrobase logo' className='w-50 h-24'/>
           {/* <h2 className="text-white text-xl font-semibold">Agrobase</h2> */}
@@ -24,9 +29,9 @@ const ConnectionPage: React.FC = () => {
       </div>
 
       {/* Right section with connect wallet */}
-      <div className="w-1/2 bg-[#042B2B] flex items-center justify-center">
+      <div className="md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center py-8 md:py-0 h-full">
         {!address && (
-          <div className="text-left">
+          <div className="text-center md:text-left">
           <h1 className="text-white text-3xl font-bold mb-4">Connect Wallet</h1>
           <p className="text-gray-300 mb-6">
             Choose a wallet you want to connect.<br />
@@ -51,6 +56,7 @@ const ConnectionPage: React.FC = () => {
           )}
       </div>
     </div>
+  </>
   );
 };
 
