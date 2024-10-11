@@ -8,7 +8,7 @@ const MarketPlaceHero: React.FC = () => {
                 <p className="text-gray-400 font-normal text-[18px] pb-5 sm:text-center md:text-left lg:text-left">Browse through more than 50k Agro-products on the Agrobase Marketplace.</p>
 
                 {/* Search Bar */}
-                <div className="relative w-full max-w-2xl">
+                <div className="relative w-full">
                     <input
                     type="text"
                     placeholder="Search your favourite Agro Products"
