@@ -17,7 +17,7 @@ const Footer: React.FC =() => {
     return(
     <footer className="bg-[#042B2B] text-white py-8  border-t border-[#2B2B2B] w-full flex flex-col items-center">
      <div className="w-10/12">
-         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
+         <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
         <div>
           <h2 className="text-2xl font-bold mb-7">Agrobase</h2>
           <p className="text-sm text-gray-400 mb-4">
@@ -67,7 +67,7 @@ const Footer: React.FC =() => {
           </div> */}
           <div className="flex items-center justify-left w-full">
             {/* Show only on medium and large screens */}
-            <div className="hidden sm:flex rounded-[15px] overflow-hidden shadow-md lg:w-full md:w-[500px]">
+            <div className="hidden md:flex md:flex-row rounded-[15px] overflow-hidden shadow-md w-full md:w-[500px] lg:w-full ">
                 {/* Input field */}
                 <input
                 type="email"
@@ -81,7 +81,7 @@ const Footer: React.FC =() => {
             </div>
 
             {/* Show only on small screens */}
-            <div className="sm:flex md:hidden lg:hidden shadow-md w-full flex-col">
+            <div className="flex md:hidden shadow-md w-full flex-col">
                  <input
                 type="email"
                 placeholder="Enter Your Email Address"

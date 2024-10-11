@@ -19,7 +19,7 @@ const ConnectionPage: React.FC = () => {
       <div className="w-1/2 bg-[#115436] flex items-center justify-center">
         <div className="flex flex items-center justify-center gap-1">
           <img src={logo.src} alt='Agrobase logo' className='w-50 h-24'/>
-          <h2 className="text-white text-xl font-semibold">Agrobase</h2>
+          {/* <h2 className="text-white text-xl font-semibold">Agrobase</h2> */}
         </div>
       </div>
 
