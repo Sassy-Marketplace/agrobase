@@ -3,7 +3,7 @@ import { IProducts } from "./interface";
 
 const ProductsDIsplay: React.FC<{tabContents: IProducts[]}> = ({tabContents}) => {
     return(
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                 {tabContents.map((product, index) => (
                 <div key={index} className="bg-[#2B2B2B] rounded-xl pb-5 shadow-md hover:scale-105 transition-transform">
                     {/* Product Image */}

@@ -1,11 +1,12 @@
 import { IProducts } from "@/components/products/interface";
-import img1 from "../../assets/img1.jpg";
-import img2 from "../../assets/img2.jpg";
-import img3 from "../../assets/img3.jpg";
-import img4 from "../../assets/img4.jpg";
+import img1 from "../../assets/img1.png";
+import img2 from "../../assets/img2.png";
+import img3 from "../../assets/img3.png";
+import img4 from "../../assets/img4.png";
 
 export const products: IProducts[] = [
   {
+    id: 1,
     name: "Cocoa Bulk",
     location: "Nigeria",
     image: img1.src,
@@ -13,6 +14,7 @@ export const products: IProducts[] = [
     highestBid: "0.33 wETH",
   },
   {
+    id: 2,
     name: "Green Pea",
     location: "Zambia",
     image: img2.src,
@@ -20,6 +22,7 @@ export const products: IProducts[] = [
     highestBid: "0.33 wETH",
   },
   {
+    id: 3,
     name: "Eve Apple",
     location: "BeKind2Robots",
     image: img3.src,
@@ -27,6 +30,7 @@ export const products: IProducts[] = [
     highestBid: "0.33 wETH",
   },
   {
+    id: 4,
     name: "Health Tangerine",
     location: "UAE",
     image: img4.src,
@@ -34,6 +38,7 @@ export const products: IProducts[] = [
     highestBid: "0.33 wETH",
   },
   {
+    id: 5,
     name: "Green Pea",
     location: "Zambia",
     image: img2.src,
@@ -41,6 +46,7 @@ export const products: IProducts[] = [
     highestBid: "0.33 wETH",
   },
   {
+    id: 6,
     name: "Eve Apple",
     location: "BeKind2Robots",
     image: img3.src,
@@ -51,6 +57,7 @@ export const products: IProducts[] = [
 
 export const campaigns = [
   {
+    id: 7,
     name: "Campaign 1",
     location: "Location 1",
     image: img3.src,
