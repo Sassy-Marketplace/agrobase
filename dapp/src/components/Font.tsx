@@ -4,6 +4,7 @@ import {
   Lato,
   Work_Sans,
   Space_Mono,
+  Montserrat,
 } from "next/font/google";
 
 export const fontGrotesk = SpaceGrotesk({
@@ -27,6 +28,11 @@ export const work = Work_Sans({
 });
 
 export const space = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+export const mont = Montserrat({
   subsets: ["latin"],
   weight: ["400", "700"],
 });

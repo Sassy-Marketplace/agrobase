@@ -27,23 +27,23 @@ export function Basenames({ address }: DisplayBasenameProps) {
       <ConnectWallet>
         {address && (
           <>
-          <Avatar address={address} chain={base} />
-        <Name address={address} chain={base} />
+            <Avatar address={address} chain={base} />
+            <Name address={address} chain={base} />
           </>
         )}
       </ConnectWallet>
-      <WalletDropdown>
+      <WalletDropdown className="bg-white flex flex-col">
         <Identity
           address={address}
           chain={base}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
-        {address && (
-          <>
-          <Avatar address={address} chain={base} />
-        <Name address={address} chain={base} />
-          </>
-        )}
+          {address && (
+            <>
+              <Avatar address={address} chain={base} />
+              <Name address={address} chain={base} />
+            </>
+          )}
           <Address />
           <EthBalance />
         </Identity>
