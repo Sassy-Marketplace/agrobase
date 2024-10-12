@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
 html, body {
   overflow: hidden;
 }
@@ -15,31 +14,5 @@ html, body {
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and newer Edge */
+  display: none;
 }
-
-/* :root {
-  background-color: #181818;
-=======
-:root {
-  background-color: #042b2b;
->>>>>>> a2fe8fc0b2f0ba4945718cd683283ea73eade763
-  color: rgba(255, 255, 255, 0.87);
-  color-scheme: light dark;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-synthesis: none;
-  font-weight: 400;
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-/* 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #f8f8f8;
-    color: #181818;
-  }
-} */

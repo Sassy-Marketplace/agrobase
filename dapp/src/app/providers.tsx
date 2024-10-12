@@ -16,17 +16,17 @@ export function Providers(props: {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        <NextUIProvider>
+    <NextUIProvider>
+      <WagmiProvider config={config} initialState={props.initialState}>
+        <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
             chain={base}
           >
             {props.children}
           </OnchainKitProvider>
-        </NextUIProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </NextUIProvider>
   );
 }

@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
-import Image from "next/image";
-import { Footer, Header, Navbar, ProductsDIsplay } from "@/components";
+import { fontGrotesk, libre } from "@/components/Font";
+import { Footer, Navbar, ProductsDIsplay } from "@/components";
 import MarketPlaceHero from "./hero";
 import { campaigns, products } from "./dummy";
 // 03ED0E
@@ -18,14 +18,14 @@ const MarketPlacePage: React.FC = () => {
             <Navbar/>
             {/* <Header/> */}
 
-            <section className="w-10/12">
+            <section className={`w-10/12 ${fontGrotesk.className}`}>
                 {/* Hero */}
                 <MarketPlaceHero/>
                 {/* {/* This should contain trending products */}
             </section>
 
             {/*  */}
-            <section className="w-full bg-[#042B2B] text-white">
+            <section className={`w-full bg-[#042B2B] text-white ${fontGrotesk.className}`}>
                 <div className="flex flex-col bg-[#2B2B2B] pt-3 w-full items-center">
                     <div className="flex w-10/12 justify-center space-x-10">
                         <button

@@ -1,13 +1,16 @@
 "use client"
-import { Footer, Header, Navbar } from '@/components';
+import { Navbar } from '@/components';
 import React, { useState } from 'react';
-import logo from "../../assets/logos/white.png"
+import AfroBaseLogo from "@/assets/logo.svg";
 import { useAccount } from 'wagmi';
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import checkMark from "../../assets/check_mark.png"
 import { Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import Link from 'next/link';
+import Image from 'next/image';
+import { fontGrotesk, libre } from '@/components/Font';
+
 
 const ConnectionPage: React.FC = () => {
   const { address } = useAccount();
@@ -15,7 +18,7 @@ const ConnectionPage: React.FC = () => {
   // 
    return (
   <>
-  <div className='lg:hidden flex flex-col'>
+  <div className='lg:hidden flex flex-col bg-[#042B2B] '>
       <Navbar/>
   </div>
 
@@ -23,17 +26,16 @@ const ConnectionPage: React.FC = () => {
       {/* Left section with the logo */}
       <div className="md:w-1/2 w-full bg-[#2B2B2B] md:bg-[#115436] flex items-center justify-center py-1 md:py-0">
         <div className="flex flex items-center justify-center gap-1">
-          <img src={logo.src} alt='Agrobase logo' className='w-50 h-24'/>
-          {/* <h2 className="text-white text-xl font-semibold">Agrobase</h2> */}
+          <Image src={AfroBaseLogo} alt='Agrobase logo' width={200} height={200} className='w-200 h-200'/>
         </div>
       </div>
 
       {/* Right section with connect wallet */}
-      <div className="md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center py-8 md:py-0 h-full">
+      <div className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center py-8 md:py-0 h-full ${libre.className}`}>
         {!address && (
           <div className="text-center md:text-left">
-          <h1 className="text-white text-3xl font-bold mb-4">Connect Wallet</h1>
-          <p className="text-gray-300 mb-6">
+          <h1 className="text-white md:text-5xl text-4xl font-bold mb-4">Connect Wallet</h1>
+          <p className="text-gray-300 mb-6 text-[18px] md:text-[19px]">
             Choose a wallet you want to connect.<br />
             There are several wallet providers.
           </p>
@@ -45,11 +47,11 @@ const ConnectionPage: React.FC = () => {
           <div className='text-center flex flex-col justify-center items-center'>
               <img src={checkMark.src} alt="check mark" className='mb-2'/>
 
-                  <div className='bg-[#ffffff] opacity-20 p-3 mb-10 rounded-[15px]'>
+                  <div className='bg-[#ffffff] opacity-20 p-3 mb-10 rounded-[15px] text-[18px] md:text-[20px]'>
                     <Name address={account.addresses?.[0]} chain={base}/>
                   </div>
 
-              <button className="py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px]">
+              <button className="py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px]">
                 <Link href="/marketplace">Go To Marketplace</Link>
               </button>
           </div>

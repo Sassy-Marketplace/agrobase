@@ -1,27 +1,28 @@
-import { Footer, Header, Navbar } from "@/components";
-import logo from "../../assets/logos/white.png"
+import { Footer, Navbar } from "@/components";
+import AfroBaseLogo from "@/assets/logo.svg";
 import {UserIcon, BriefcaseIcon, MapPinIcon, LockIcon} from "lucide-react"
+import Image from "next/image";
+import { libre } from "@/components/Font";
 
 const ConnectAccount : React.FC = () => {
 
     return(
         <>
-        <div className="lg:hidden flex flex-col">
+        <div className="lg:hidden flex flex-col bg-[#042B2B] ">
             <Navbar/>
         </div>
-           <div className="flex flex-col md:flex-row lg:flex-row md:h-screen h-auto bg-[#042B2B] lg:p-4 p-0">
+           <div className={`flex flex-col md:flex-row lg:flex-row md:h-screen h-auto bg-[#042B2B] lg:p-4 p-0 `}>
                 {/* Left section with the logo */}
                 <div className="md:w-1/2 w-full bg-[#115436] flex items-center justify-center py-10 md:py-0">
                     <div className="flex items-center justify-center gap-1">
-                    <img src={logo.src} alt='Agrobase logo' className='w-50 h-24' />
-                    {/* <h2 className="text-white text-xl font-semibold">Agrobase</h2> */}
+                             <Image src={AfroBaseLogo} alt='Agrobase logo' width={200} height={200} className='w-200 h-200'/>
                     </div>
                 </div>
 
                 {/* Right section with connect wallet */}
-                <div className="md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0">
-                    <h1 className="text-left md:text-center text-white text-4xl mb-3 font-bold pl-7 md:pl-0">Create Account</h1>
-                    <p className="text-left md:text-center text-gray-400 text-[16px] mb-5 pl-7 md:pl-0">
+                <div className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0 ${libre.className}`}>
+                    <h1 className="text-left md:text-center text-white text-4xl md:text-5xl mb-3 font-bold pl-7 md:pl-0">Create Account</h1>
+                    <p className="text-left md:text-center text-gray-400 text-[17px] md:text-[19px] mb-5 pl-7 md:pl-0">
                     Welcome! Enter your details and start creating, <br /> purchasing, selling, and investing.
                     </p>
 
@@ -69,7 +70,7 @@ const ConnectAccount : React.FC = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <button className="w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition">
+                        <button className="w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px]">
                         Create account
                         </button>
                     </div>

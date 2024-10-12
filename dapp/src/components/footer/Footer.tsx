@@ -3,6 +3,10 @@ import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import {SocialIcon} from "react-social-icons"
 import {BriefcaseIcon} from "lucide-react"
+import { fontGrotesk } from "../Font"
+import Image from "next/image"
+import AfroBaseLogo from "@/assets/logo.svg";
+
 
 const Footer: React.FC =() => {
 
@@ -15,11 +19,11 @@ const Footer: React.FC =() => {
   }, [])
 
     return(
-    <footer className="bg-[#042B2B] text-white py-8  border-t border-[#2B2B2B] w-full flex flex-col items-center">
+    <footer className={`bg-[#042B2B] text-white py-8  border-t border-[#2B2B2B] w-full flex flex-col items-center ${fontGrotesk.className}`}>
      <div className="w-10/12">
          <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
         <div>
-          <h2 className="text-2xl font-bold mb-7">Agrobase</h2>
+          <Image className="mb-7" src={AfroBaseLogo} alt="logo"/>
           <p className="text-sm text-gray-400 mb-4">
             Real World Agro marketplace
             <br/>

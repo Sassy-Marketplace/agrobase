@@ -4,40 +4,24 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  Link,
   Button,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-  NavbarMenu,
 } from "@nextui-org/react";
 import { Basenames } from "./basenames";
 import { ConnectWallet } from "@coinbase/onchainkit/wallet";
 import { useAccount } from "wagmi";
 import AfroBaseLogo from "@/assets/logo.svg";
 import Image from "next/image";
-import { useState } from "react";
-import Link from "next/link";
 
 export default function NavBar() {
   const { address } = useAccount();
   const account = useAccount();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  return account ? (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
-      <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
-        <NavbarBrand>
-          <p className="font-bold text-inherit">
-            {/* <Image src={AfroBaseLogo} alt="" /> */}
-            AgroBase
-          </p>
-        </NavbarBrand>
-      </NavbarContent>
-      <NavbarContent className="sm:flex gap-4" justify="end">
+  return address ? (
+    <Navbar className="bg-transparent">
+      <NavbarBrand>
+        <Image src={AfroBaseLogo} alt="logo" />
+      </NavbarBrand>
+      <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
             Marketplace
@@ -62,22 +46,11 @@ export default function NavBar() {
           )}
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link href={""}>Marketplace</Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href={""}>My Profile</Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href={""}>Campaigns</Link>
-        </NavbarMenuItem>
-      </NavbarMenu>
     </Navbar>
   ) : (
-    <Navbar>
+    <Navbar className="bg-[transparent]">
       <NavbarBrand>
-        <p className="font-bold text-inherit">AGROBASE</p>
+        <Image src={AfroBaseLogo} alt="" />
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem>
@@ -98,20 +71,11 @@ export default function NavBar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button>Go to App</Button>
+          <Button className="bg-[#ffffff] text-black rounded-full">
+            Go to App
+          </Button>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link href={""}>Marketplace</Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href={""}>My Profile</Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href={""}>Campaigns</Link>
-        </NavbarMenuItem>
-      </NavbarMenu>
     </Navbar>
   );
 }
