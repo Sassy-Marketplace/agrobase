@@ -124,10 +124,10 @@ const ProductPage: React.FC = ({params}: { params: {id: string} }) => {
                     <h2 className={`font-bold text-gray-400 text-[1.1rem] pb-3 ${fontGrotesk.className}`}>Tags</h2>
 
                     <div className="flex md:flex-row flex-col md:items-center items-left md:justify-start gap-3">
-                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem]">CROPS</Button>
-                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem]">COCOA</Button>
-                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem]">BULK</Button>
-                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem]">CASH CROP</Button>
+                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem] md:max-w-full max-w-[10rem]">CROPS</Button>
+                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem] md:max-w-full max-w-[10rem]">COCOA</Button>
+                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem] md:max-w-full max-w-[10rem]">BULK</Button>
+                        <Button className="text-white text-center bg-[#2B2B2B] px-5 py-3 rounded-[1.8rem] md:max-w-full max-w-[10rem]">CASH CROP</Button>
                     </div>
                     </section>
                     
@@ -143,14 +143,15 @@ const ProductPage: React.FC = ({params}: { params: {id: string} }) => {
                     </section>
                 </div>
 
-                <section className="w-full flex flex-col items-center">
-                    <div className="w-10/12 flex flex-col mb-[3rem]">
-                        <div className=" mb-[2.5rem] flex items-center justify-between">
-                            <h1 className="text-white text-[2.3rem] text-left pb-5">More Products</h1>
-                            <Button className="px-[3rem] py-[1.7rem] rounded-[0.9rem] border-[2px] border-[#03ED0E]">
+                <section className="w-full flex flex-col items-center md:mb-0 mb-[3.5rem]">
+                    <div className="w-10/12 flex flex-col md:mb-[3rem]">
+                        <div className="mb-[0.5rem] md:mb-[2.5rem] flex items-center justify-between md:flex-row flex-col">
+                            <h1 className="hidden md:inline text-white text-[2.3rem] text-left pb-5">More Products</h1>
+                            <Button className="px-[3rem] py-[1.7rem] rounded-[0.9rem] border-[2px] border-[#03ED0E] mb-[5rem] md:mb-0">
                                 <ArrowRightIcon className="text-[#A259FF]"/>
                                 <span className="text-[1.1rem] text-white">Go To Campaigns</span>
                             </Button>
+                            <h1 className="md:hidden inline text-white text-[1.5rem] text-center pb-2">More Products</h1>
                         </div>
 
                         {/* Display products */}
