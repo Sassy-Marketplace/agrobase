@@ -1,10 +1,39 @@
+"use client"
 import { Footer, Navbar } from "@/components";
 import AfroBaseLogo from "@/assets/logo.svg";
 import {UserIcon, BriefcaseIcon, MapPinIcon, LockIcon} from "lucide-react"
 import Image from "next/image";
 import { libre } from "@/components/Font";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ConnectAccount : React.FC = () => {
+    const router = useRouter();
+
+    const handleCreateAccount = () => {
+        const username = document.getElementById("username");
+        const accountType = document.getElementById("account-type")
+        const location = document.getElementById("location")
+        const about = document.getElementById("about");
+
+        //@ts-expect-error
+        if(!username?.value || !accountType?.value || !location?.value || !about?.value){
+            toast("All fields are required", {
+                className: "bg-red-500 text-white",
+                type: "error",
+                style: {background: "#EF4444", color: "white"},
+                progressStyle: {background: "white"},
+                autoClose: 3000,
+            })
+        }else{
+
+        // Perform account creation here
+
+        router.push("/marketplace")
+
+        }
+    };
 
     return(
         <>
@@ -34,25 +63,28 @@ const ConnectAccount : React.FC = () => {
                         <UserIcon className="text-gray-400 mr-3" />
                         <input
                             type="text"
+                            id="username"
                             placeholder="Username"
                             className="bg-transparent outline-none w-full text-gray-800"
                         />
                         </div>
 
                         {/* Account type */}
-                        <div className="flex items-center bg-white rounded-[20px] mb-4 px-4 py-3">
+                        <div className="flex items-center bg-white rounded-[20px] text-gray-400 mb-4 px-4 py-3">
                         <BriefcaseIcon className="text-gray-400 mr-3" />
-                        <input
-                            type="text"
-                            placeholder="Account type"
-                            className="bg-transparent outline-none w-full text-gray-800"
-                        />
+                        <select id="account-type" name="Account Type" className="bg-transparent outline-none w-full text-gray-800" >
+                            <option disabled selected value="" className="text-gray-400">Account Type</option>
+                            <option value="business" className="text-gray-800">Farmer</option>
+                            <option value="business" className="text-gray-800">Investor</option>
+                            <option value="user" className="text-gray-800">Buyer</option>
+                        </select>
                         </div>
 
                         {/* Location */}
                         <div className="flex items-center bg-white rounded-[20px] mb-4 px-4 py-3">
                         <MapPinIcon className="text-gray-400 mr-3" />
                         <input
+                            id="location"
                             type="text"
                             placeholder="Location"
                             className="bg-transparent outline-none w-full text-gray-800"
@@ -63,6 +95,7 @@ const ConnectAccount : React.FC = () => {
                         <div className="flex items-center bg-white rounded-[20px] h-[80px] mb-4 px-4 py-3">
                         <LockIcon className="text-gray-400 mr-3" />
                         <input
+                            id="about"
                             type="text"
                             placeholder="About you"
                             className="bg-transparent outline-none w-full text-gray-800 h-full"
@@ -70,7 +103,7 @@ const ConnectAccount : React.FC = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <button className="w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px]">
+                        <button onClick={handleCreateAccount} className="w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px]">
                         Create account
                         </button>
                     </div>
@@ -80,6 +113,7 @@ const ConnectAccount : React.FC = () => {
             <div className="lg:hidden sm:flex md:flex flex-col">
                 <Footer/>
             </div>
+            <ToastContainer/>
         </>
     )
 }

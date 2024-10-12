@@ -1,18 +1,24 @@
-import { Footer, Navbar, ProductsDIsplay } from "@/components";
+"use client"
+import { Footer, Navbar, ProductButton, ProductsDIsplay, TruncatedText } from "@/components";
 import { useRouter } from "next/navigation";
 import { products } from "../../marketplace/dummy";
 import { IProducts } from "@/components/products/interface";
-import React from "react";
+import React, { useState } from "react";
 import productImg from "@/assets/productplaceholder.png"
 import profileImg from "@/assets/profile.jpg"
 import Image from "next/image";
 import { fontGrotesk } from "@/components/Font";
 import { ArrowRightIcon, GlobeIcon } from "lucide-react";
 import { Button, Link } from "@nextui-org/react";
+import CampaignsDisplay from "@/components/campaigns/CampaignsDisplay";
 
 const ProductPage: React.FC = ({params}: { params: {id: string} }) => {
 
+    const [activeTab, setActiveTab] = useState<string>("products");
+
    const product = products.find((product: IProducts) => product.id === +params.id);
+
+   const router = useRouter();
 
    return(
         <>    
@@ -55,62 +61,14 @@ const ProductPage: React.FC = ({params}: { params: {id: string} }) => {
 
                         <h2 className={`font-bold text-gray-400 text-[1.1rem] pb-4 ${fontGrotesk.className}`}>Description</h2>
 
-                        <p className="text-left text-white mb-6">
-                                Premium Nigerian Cocoa by Musa's Cocoa Farm
-                                Product Overview:Discover the rich, authentic taste of Musa’s Premium Cocoa, grown and harvested in the heart of Nigeria. Musa, a dedicated and experienced cocoa farmer, brings you the finest quality cocoa beans, nurtured from his family-run farm. Located in the lush, fertile lands of southwestern Nigeria, Musa’s farm benefits from the perfect climate and soil conditions, producing high-grade cocoa that’s prized for its deep, rich flavor and aromatic profile.
-                                <br />
-                                <br />
+                        <TruncatedText maxlength={300} text="Premium Nigerian Cocoa by Musa's Cocoa Farm
+                        Product Overview: Discover the rich, authentic taste of Musa’s Premium Cocoa, grown and harvested in the heart of Nigeria. Musa, a dedicated and experienced cocoa farmer, brings you the finest quality cocoa beans, nurtured from his family-run farm. Located in the lush, fertile lands of southwestern Nigeria, Musa’s farm benefits from the perfect climate and soil conditions, producing high-grade cocoa that’s prized for its deep, rich flavor and aromatic profile.
 
-                                About Musa's Cocoa Farm:Musa has been cultivating cocoa for over 20 years, following sustainable farming practices to ensure both quality and environmental responsibility. His commitment to preserving the traditional methods of cocoa farming while embracing modern innovations makes his farm a leading producer in Nigeria. Every cocoa bean is hand-picked and sun-dried to perfection, preserving its natural flavor and enhancing the quality of the final product.
-                                Product Features:
-                                <br />
-                                <br />
-                                Origin: Southwestern Nigeria
-                                <br />
-                                <br />
-                                Type: Premium-grade cocoa beans
-                                <br />
-                                <br />
-                                Flavor Profile: Rich, bold cocoa taste with subtle earthy and nutty undertones
-                                <br />
-                                <br />
-                                Cultivation: Grown sustainably with organic farming practices
-                                <br />
-                                <br />
-                                Processing: Sun-dried and hand-sorted for premium quality
-                                <br />
-                                <br />
-                                Cocoa Varieties Available:
-                                <br />
-                                <br />
-                                Raw Cocoa Beans: Unprocessed beans ideal for further roasting or direct use in artisanal chocolate production.
-                                <br />
-                                <br />
-                                Cocoa Nibs: Small, crunchy pieces of dried cocoa beans, perfect for baking or as a topping.
-                                <br />
-                                <br />
-                                Cocoa Powder: Finely ground cocoa powder for baking, desserts, and beverages.
-                                <br />
-                                <br />
-                                Packaging Options:
-                                <br />
-                                <br />
-                                1kg Bag (Whole Beans or Powder)
-                                5kg Bulk Pack (Ideal for businesses)
-                                Custom packaging available upon request
-                                <br />
-                                <br />
-                                Contact Us: For inquiries or bulk orders, please contact:
-                                <br />
-                                <br />
-                                Email: musa@cocoafarmersng.com
-                                <br />
-                                <br />
-                                Phone: +234-123-4567
-                        </p>
+                        About Musa's Cocoa Farm: Musa has been cultivating cocoa for over 20 years, following sustainable farming practices to ensure both quality and environmental responsibility. His commitment to preserving the traditional methods of cocoa farming while embracing modern innovations makes his farm a leading producer in Nigeria. Every cocoa bean is hand-picked and sun-dried to perfection, preserving its natural flavor and enhancing the quality of the final product.
+                               "/>
 
 
-                    <h2 className={`font-bold text-gray-400 text-[1.1rem] pb-4 ${fontGrotesk.className}`}>Details</h2>
+                    <h2 className={`font-bold text-gray-400 text-[1.1rem] pb-4 pt-6 ${fontGrotesk.className}`}>Details</h2>
 
                      <div className="flex flex-row items-center justify-start gap-1">
                             <GlobeIcon className="text-gray-400"/>
@@ -143,22 +101,46 @@ const ProductPage: React.FC = ({params}: { params: {id: string} }) => {
                     </section>
                 </div>
 
-                <section className="w-full flex flex-col items-center md:mb-0 mb-[3.5rem]">
-                    <div className="w-10/12 flex flex-col md:mb-[3rem]">
-                        <div className="mb-[0.5rem] md:mb-[2.5rem] flex items-center justify-between md:flex-row flex-col">
-                            <h1 className="hidden md:inline text-white text-[2.3rem] text-left pb-5">More Products</h1>
-                            <Button className="px-[3rem] py-[1.7rem] rounded-[0.9rem] border-[2px] border-[#03ED0E] mb-[5rem] md:mb-0">
-                                <ArrowRightIcon className="text-[#A259FF]"/>
-                                <span className="text-[1.1rem] text-white">Go To Campaigns</span>
-                            </Button>
-                            <h1 className="md:hidden inline text-white text-[1.5rem] text-center pb-2">More Products</h1>
-                        </div>
+                {
+                    activeTab === "products" && (
+                        <section className="w-full flex flex-col items-center md:mb-0 mb-[3.5rem]">
+                            <div className="w-10/12 flex flex-col md:mb-[3rem]">
+                                <div className="mb-[0.5rem] md:mb-[2.5rem] flex items-center justify-between md:flex-row flex-col">
+                                    <h1 className="hidden md:inline text-white text-[2.3rem] text-left pb-5">More Products</h1>
+                                <ProductButton text="Go To Campaigns" event={() => setActiveTab("campaigns")}/>
+                                    <h1 className="md:hidden inline text-white text-[1.5rem] text-center pb-2">More Products</h1>
+                                </div>
 
-                        {/* Display products */}
-                        <ProductsDIsplay tabContents={products}/>
-                    </div>
-                </section>
+                                {/* Display products */}
+                                <ProductsDIsplay tabContents={products} />
+                            </div>
+                        </section>
+                    )
+                }
+                
+                {
+                    activeTab === "campaigns" && (
+                        <section className="w-full flex flex-col items-center">
+                            <div className="w-10/12 flex flex-col md:mb-[3rem]">
+                                    <div className="mb-[0.5rem] md:mb-[2.5rem] flex items-center justify-between md:flex-row flex-col">
+                                        <h1 className="text-white text-[2.3rem] text-center md:pb-5 pb-2 md:text-left">Campaigns</h1>
+                                        
+                                        <div className="hidden md:flex justify-between items-center md:gap-[5rem]">
+                                            <ProductButton text="Back to Products" event={() =>setActiveTab("products")}/>
 
+                                            <ProductButton text="Go to Marketplace" event={() => router.push("/marketplace")}/>
+                                        </div>
+                                    </div>
+
+                                    <CampaignsDisplay campaigns={products}/>
+
+                                    <div className="md:hidden flex flex-col  items-center mt-10">
+                                        <ProductButton text="Back to Products" event={() =>setActiveTab("products")}/>
+                                    </div>
+                            </div>
+                        </section>
+                    )
+                }
                 <Footer/>
             </div>
         </>

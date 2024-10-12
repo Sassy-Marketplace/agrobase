@@ -47,12 +47,12 @@ const ConnectionPage: React.FC = () => {
           <div className='text-center flex flex-col justify-center items-center'>
               <img src={checkMark.src} alt="check mark" className='mb-2'/>
 
-                  <div className='bg-[#ffffff] opacity-20 p-3 mb-10 rounded-[15px] text-[18px] md:text-[20px]'>
+                  <div className='p-3 text-white mb-10 rounded-[15px] text-[18px] md:text-[20px]'>
                     <Name address={account.addresses?.[0]} chain={base}/>
                   </div>
 
               <button className="py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px]">
-                <Link href="/marketplace">Go To Marketplace</Link>
+                <Link href="/create-account">Create Account</Link>
               </button>
           </div>
           )}
