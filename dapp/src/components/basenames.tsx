@@ -15,7 +15,6 @@ import {
   Identity,
   EthBalance,
 } from "@coinbase/onchainkit/identity";
-import "@coinbase/onchainkit/styles.css";
 import { base, baseSepolia } from "viem/chains";
 
 interface DisplayBasenameProps {
@@ -26,8 +25,12 @@ export function Basenames({ address }: DisplayBasenameProps) {
   return (
     <Wallet>
       <ConnectWallet>
-        <Avatar address={address} chain={base} />
+        {address && (
+          <>
+          <Avatar address={address} chain={base} />
         <Name address={address} chain={base} />
+          </>
+        )}
       </ConnectWallet>
       <WalletDropdown>
         <Identity
@@ -35,8 +38,12 @@ export function Basenames({ address }: DisplayBasenameProps) {
           chain={base}
           schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
         >
+        {address && (
+          <>
           <Avatar address={address} chain={base} />
-          <Name address={address} chain={base} />
+        <Name address={address} chain={base} />
+          </>
+        )}
           <Address />
           <EthBalance />
         </Identity>

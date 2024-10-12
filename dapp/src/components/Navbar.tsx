@@ -1,3 +1,4 @@
+"use client"
 import {
   Navbar,
   NavbarBrand,
@@ -12,7 +13,7 @@ import { useAccount } from "wagmi";
 import AfroBaseLogo from "@/assets/logo.svg";
 import Image from "next/image";
 
-export default function App() {
+export default function NavBar() {
   const { address } = useAccount();
   const account = useAccount();
   return address ? (
