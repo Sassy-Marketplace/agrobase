@@ -3,12 +3,13 @@ import Image from "next/image";
 import React from "react";
 import HeroImage from "@/assets/heroImage.png";
 import { fontGrotesk, libre } from "./Font";
+import Link from "next/link";
 
 const Hero = () => {
   return (
-    <main className="w-full md:mt-[9rem]">
-      <section className="flex w-[90%] ml-auto gap-20">
-        <section className="flex flex-col gap-10">
+    <main className="w-full md:mt-[9rem] h-auto">
+      <section className="flex ml-auto gap-20">
+        <section className="flex flex-col justify-between gap-10">
           <div className="flex flex-col gap-10">
             <div className="flex flex-col justify-center">
               <span
@@ -60,15 +61,20 @@ const Hero = () => {
               </div>
             </div>
           </div>
-          <Button className="bg-transparent text-left">
-            Download Whitepaper <LinkIcon />
-          </Button>
+          <Link
+            href={`#`}
+            className="bg-transparent text-left text-lg font-bold self-start"
+          >
+            <span className="flex gap-2">
+              Download Whitepaper <LinkIcon />
+            </span>
+          </Link>
         </section>
-        <section className="self-end">
+        <section className="flex flex-col justify-between">
           <div>
             <Image src={HeroImage} alt="hero image" width={450} />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-center text-lg font-bold">
             <p>Agrobase MP</p>
           </div>
         </section>

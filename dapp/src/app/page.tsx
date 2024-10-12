@@ -5,15 +5,19 @@ import { useAccount } from "wagmi";
 // import LoginButton from "../components/LoginButton";
 import Navbar from "../components/Navbar";
 import Hero from "@/components/Hero";
+import { TrendCollection } from "@/components/trending/TrendCollection";
 
 export default function Page() {
   const { address } = useAccount();
   const account = useAccount();
 
   return (
-    <div className="flex flex-col h-full w-full max-w-full px-1 md:w-[1008px]">
+    <main className="flex flex-col items-center h-full w-full max-w-full md:w-[1008px]">
       <Navbar />
-      <Hero />
-    </div>
+      <div className="flex flex-col items-center">
+        <Hero />
+        <TrendCollection />
+      </div>
+    </main>
   );
 }
