@@ -25,10 +25,12 @@ export const business: Cards[] = [
 export const Categories = () => {
   return (
     <div className="mt-[8rem] w-full flex flex-col gap-[3rem] px-[3rem]">
-      <p className={`${work.className} text-4xl font-semibold`}>
+      <p
+        className={`${work.className} text-2xl text-center md:text-left lg:text-4xl font-semibold`}
+      >
         Browse Categories
       </p>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-6">
         {business.map((item, index) => (
           <Card key={index} src={item.src} name={item.name} />
         ))}

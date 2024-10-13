@@ -82,25 +82,34 @@ export const TopBusinesses = () => {
   return (
     <div className="mt-[8rem] w-full flex flex-col gap-[3rem]">
       <div className="flex flex-col gap-3">
-        <p className={`${work.className} text-4xl font-semibold`}>
+        <p
+          className={`${work.className} text-2xl text-center md:text-left lg:text-4xl font-semibold`}
+        >
           Top Farmers/Businesses
         </p>
         <div className="flex justify-between">
-          <p className={`text-xl font-normal ${lato.className}`}>
+          <p
+            className={`text-xl text-center md:text-left font-normal ${lato.className}`}
+          >
             Checkout Top Rated Farmers And Business On The Marketplace.
           </p>
           <Button
-            className={`bg-transparent border-2 border-[#03ed0e] rounded-full px-16 py-6 text-sm ${lato.className} mr-2`}
+            className={`hidden md:flex bg-transparent border-2 border-[#03ed0e] rounded-full px-16 py-6 text-sm ${lato.className} mr-2`}
           >
             View Rankings
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 justify-items-center">
         {business.map((item, index) => (
           <Card key={index} num={item.num} src={item.src} name={item.name} />
         ))}
       </div>
+      <Button
+        className={`md:hidden bg-transparent border-2 border-[#03ed0e] rounded-full px-16 py-6 text-sm ${lato.className} mr-2`}
+      >
+        View Rankings
+      </Button>
     </div>
   );
 };

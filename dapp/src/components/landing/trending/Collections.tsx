@@ -15,7 +15,7 @@ import small6 from "@/assets/trending/small crops/image-8.svg";
 
 export const Collections = () => {
   return (
-    <div className="flex gap-8">
+    <div className="flex flex-col lg:flex-row items-center gap-8">
       <Collection
         img0={big1}
         img1={small1}

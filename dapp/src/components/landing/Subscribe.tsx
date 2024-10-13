@@ -7,17 +7,19 @@ import pic from "@/assets/DEZ TEAM UP (2)/person/Photo.svg";
 export const Subscribe = () => {
   return (
     <div className="w-full bg-[#042b2b] mt-[4rem]">
-      <div className="w-[70%] mx-auto my-[4rem] flex justify-center items-center gap-[3rem]">
-        <div className="m-8">
+      <div className="w-[90%] md:w-[70%] mx-auto my-[4rem] flex flex-col md:flex-row justify-center items-center gap-[3rem]">
+        <div className="md:w-1/2 m-8">
           <Image src={pic} alt="farmer" />
         </div>
-        <div>
+        <div className="">
           <h2
-            className={`text-4xl text-white font-semibold ${work.className} mb-4`}
+            className={`text-4xl text-center md:text-left text-white font-semibold ${work.className} mb-4`}
           >
             Join Our Weekly Digest
           </h2>
-          <p className={`text-xl text-white mb-8 ${work.className}`}>
+          <p
+            className={`text-xl text-center md:text-left text-white mb-8 ${work.className}`}
+          >
             Get Exclusive Promotions & Updates <br /> Straight To Your Inbox.
           </p>
           <div className="flex items-center justify-left w-full">

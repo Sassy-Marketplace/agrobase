@@ -29,8 +29,8 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <div className="mt-[4rem] w-[80%] mx-auto flex flex-col gap-[3rem] px-[3rem]">
-      <div className="flex flex-col gap-4">
+    <div className="mt-[4rem] w-full lg:w-[80%] mx-auto flex flex-col gap-[3rem] px-[3rem]">
+      <div className="flex flex-col items-center md:items-start gap-4">
         <p className={`${work.className} text-4xl font-semibold`}>
           How It Works
         </p>
@@ -38,7 +38,7 @@ const HowItWorks = () => {
           Find Out How To Get Started{" "}
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
         {steps.map((item, index) => (
           <Card
             key={index}

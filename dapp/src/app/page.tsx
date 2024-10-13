@@ -1,8 +1,5 @@
 "use client";
-// import Footer from "src/components/Footer";
-// import { ONCHAINKIT_LINK } from "src/links";
 import { useAccount } from "wagmi";
-// import LoginButton from "../components/LoginButton";
 import Navbar from "../components/Navbar";
 import Hero from "@/components/landing/Hero";
 import { TrendCollection } from "@/components/landing/trending/TrendCollection";
@@ -14,9 +11,6 @@ import { Subscribe } from "@/components/landing/Subscribe";
 import { Actions } from "@/components/landing/Actions";
 
 export default function Page() {
-  const { address } = useAccount();
-  const account = useAccount();
-
   return (
     <main className="flex flex-col items-center h-full w-full max-w-full">
       <Navbar />
