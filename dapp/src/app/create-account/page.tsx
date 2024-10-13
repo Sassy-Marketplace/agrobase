@@ -3,30 +3,33 @@ import { Footer, Navbar } from "@/components";
 import AfroBaseLogo from "@/assets/logo.svg";
 import { UserIcon, BriefcaseIcon, MapPinIcon, LockIcon } from "lucide-react";
 import Image from "next/image";
-import { lato, libre, work } from "@/components/Font";
+import { lato, work } from "@/components/Font";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useWrite } from "@/utils/fetchContracts";
-import { useAccount } from "wagmi";
+import { contractConfigs, useWrite } from "@/utils/fetchContracts";
+import { useAccount, useWriteContract } from "wagmi";
+import { useState } from "react";
+import coreAbi from "@/utils/abis/coreAbi.json";
+import { coreAddress } from "@/utils/contractAddresses";
+import { config } from "@/wagmi";
 
 const ConnectAccount: React.FC = () => {
   const router = useRouter();
-  const account = useAccount();
+  const { address } = useAccount();
 
-  const handleCreateAccount = () => {
-    const username = document.getElementById("username");
-    const accountType = document.getElementById("account-type");
-    const location = document.getElementById("location");
-    const about = document.getElementById("about");
+  // State to store form input values
+  const [username, setUsername] = useState("");
+  const [accountType, setAccountType] = useState("");
+  const [location, setLocation] = useState("");
+  const [about, setAbout] = useState("");
 
-    //@ts-expect-error
-    if (
-      !username?.value ||
-      !accountType?.value ||
-      !location?.value ||
-      !about?.value
-    ) {
+  const { writeContract, isPending, isSuccess, isError, error } =
+    useWriteContract({ config });
+
+  const handleCreateAccount = async () => {
+    if (!username || !accountType || !location || !about) {
+      // Show toast notification for missing fields
       toast("All fields are required", {
         className: "bg-red-500 text-white",
         type: "error",
@@ -35,23 +38,34 @@ const ConnectAccount: React.FC = () => {
         autoClose: 3000,
       });
     } else {
-      // Perform account creation here
-      const {
-        writeData,
-        writeLoading,
-        writeContract,
-        writeWaitError,
-        writeWaitSuccess,
-        writeWaitLoading,
-      } = useWrite({
-        contractName: "core",
-        functionName: "onboardBusiness",
-        args: [account.address, username, about, location, ""],
-      });
+      try {
+        // Perform contract write operation here
+        const res = writeContract({
+          abi: coreAbi,
+          address: coreAddress,
+          functionName: "onboardBusiness",
+          args: [address, username, about, location, ""],
+        });
 
-      console.log(writeData);
+        !!isSuccess &&
+          toast("Account created successfully", {
+            className: "bg-green-500 text-white",
+            type: "success",
+            autoClose: 3000,
+          });
+        console.log(coreAbi, coreAddress);
+        console.log(res);
 
-      router.push("/marketplace");
+        // Redirect to marketplace
+        isSuccess && router.push("/marketplace");
+      } catch (err) {
+        isError &&
+          toast("Account creation failed", {
+            className: "bg-red-500 text-white",
+            type: "error",
+            autoClose: 3000,
+          });
+      }
     }
   };
 
@@ -76,7 +90,7 @@ const ConnectAccount: React.FC = () => {
           </div>
         </div>
 
-        {/* Right section with connect wallet */}
+        {/* Right section with form */}
         <div
           className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0 ${work.className}`}
         >
@@ -103,6 +117,8 @@ const ConnectAccount: React.FC = () => {
                   id="username"
                   placeholder="Username"
                   className="bg-transparent outline-none w-full text-gray-900"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
 
@@ -113,16 +129,14 @@ const ConnectAccount: React.FC = () => {
                   id="account-type"
                   name="Account Type"
                   className="bg-transparent outline-none w-full "
+                  value={accountType}
+                  onChange={(e) => setAccountType(e.target.value)}
                 >
                   <option disabled selected value="" className="text-gray-400">
                     Account Type
                   </option>
-                  <option value="business" className="">
-                    Business
-                  </option>
-                  <option value="business" className="">
-                    Investor
-                  </option>
+                  <option value="business">Business</option>
+                  <option value="investor">Investor</option>
                 </select>
               </div>
 
@@ -134,6 +148,8 @@ const ConnectAccount: React.FC = () => {
                   type="text"
                   placeholder="Location"
                   className="bg-transparent outline-none w-full text-gray-900"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                 />
               </div>
 
@@ -145,11 +161,14 @@ const ConnectAccount: React.FC = () => {
                   type="text"
                   placeholder="About you"
                   className="bg-transparent outline-none w-full text-gray-900 h-full"
+                  value={about}
+                  onChange={(e) => setAbout(e.target.value)}
                 />
               </div>
 
               {/* Submit Button */}
               <button
+                disabled={isPending}
                 onClick={handleCreateAccount}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >

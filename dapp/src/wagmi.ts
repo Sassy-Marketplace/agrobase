@@ -23,8 +23,15 @@ export function getConfig() {
   });
 }
 
+export const config = createConfig({
+  chains: [baseSepolia],
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
 declare module "wagmi" {
-  interface Register {
+  export interface Register {
     config: ReturnType<typeof getConfig>;
   }
 }
