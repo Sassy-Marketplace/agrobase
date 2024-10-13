@@ -13,7 +13,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Address } from "viem";
 
 export const contractConfigs = {
@@ -32,7 +32,7 @@ export const contractConfigs = {
 };
 
 export interface dataProps {
-  contractName: string;
+  contractName: keyof typeof contractConfigs;
   functionName: string;
   args?: Array<any>;
   account?: Address;
@@ -84,28 +84,23 @@ export const useWrite = ({
   account,
   value,
 }: dataProps) => {
-  const { data } = useSimulateContract({
-    abi: contractConfigs[contractName]?.abi,
-    address: contractConfigs[contractName]?.address,
-    functionName,
-    args,
-  });
-
-  //[x] - you can change the name to your choice
   const {
     data: writeData,
     isPending: writeLoading,
     writeContract,
   } = useWriteContract();
 
-  console.log("write data", writeData, data);
-  writeContract(data!.request);
+  console.log("write data", writeData);
 
-  //[x] - example how to use is on Button in React
-  // <button disabled={isPending} type="submit">
-  //   Mint
-  //   {isPending ? "Confirming..." : "Mint"}
-  // </button>;
+  const fetchWriteContract = useCallback(() => {
+    writeContract({
+      abi: contractConfigs[contractName]?.abi,
+      address: contractConfigs[contractName]?.address,
+      functionName,
+      args,
+    });
+    console.log("in the fetch write contract function");
+  }, [writeData, writeLoading]);
 
   const {
     isError: writeWaitError,
@@ -118,7 +113,7 @@ export const useWrite = ({
   return {
     writeData,
     writeLoading,
-    writeContract,
+    fetchWriteContract,
     writeWaitError,
     writeWaitSuccess,
     writeWaitLoading,
@@ -127,5 +122,23 @@ export const useWrite = ({
 
 // SAMPLE WRITE USING THE HOOK
 
-// const { writeData,writeLoading,writeContract,writeWaitError,writeWaitSuccess,writeWaitLoading } = useWrite({contractName: "core",
-//    functionName: "getAllBusinessProfiles", args: [arg1,arg2], account(optional), value(optional)});
+// const { writeContract, isPending, isSuccess, isError, error } = useWriteContract();
+
+// const onCreateEvent = () => {
+//   writeContract({
+//     abi: FEEDBACKS_ABI,
+//     address: FEEDBACK_ADDRESS,
+//     functionName: "createEvent",
+//     args: [
+//       brandId,
+//       name,
+//       description,
+//       eventLocation,
+//       eventDuration.start,
+//       eventDuration.end,
+//       eventWebsite,
+//       eventRegistrationLink,
+//       brandArrayValues.map(Number),
+//     ],
+//   });
+// };
