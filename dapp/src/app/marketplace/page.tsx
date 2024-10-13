@@ -1,9 +1,12 @@
 "use client"
 import { useState } from "react"
 import { fontGrotesk, libre } from "@/components/Font";
-import { Footer, Navbar, ProductsDIsplay } from "@/components";
+import { Navbar, ProductsDIsplay } from "@/components";
+import Footer from "@/components/landing/Footer";
 import MarketPlaceHero from "./hero";
-import { campaigns, products } from "./dummy";
+import { products } from "./dummy";
+import { campaigns } from "../campaigns/dummy";
+import CampaignsDisplay from "@/components/campaigns/CampaignsDisplay";
 // 03ED0E
 
 const MarketPlacePage: React.FC = () => {
@@ -49,8 +52,13 @@ const MarketPlacePage: React.FC = () => {
 
                <div className="w-full flex flex-col items-center mb-[80px]">
                 <div className="w-10/12">
-                 <ProductsDIsplay tabContents={tabContents} />
-                 <ProductsDIsplay tabContents={tabContents} />
+                {
+                    activeTab === "products" ? (
+                        <ProductsDIsplay tabContents={tabContents} />
+                    ): (
+                        <CampaignsDisplay campaigns={tabContents}/>
+                    )
+                }
                 </div>
                </div>
             </section>

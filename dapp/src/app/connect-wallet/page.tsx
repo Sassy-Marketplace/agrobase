@@ -9,7 +9,7 @@ import { Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import Link from 'next/link';
 import Image from 'next/image';
-import { fontGrotesk, libre } from '@/components/Font';
+import { fontGrotesk, lato, libre, work } from '@/components/Font';
 
 
 const ConnectionPage: React.FC = () => {
@@ -34,12 +34,12 @@ const ConnectionPage: React.FC = () => {
       <div className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center py-8 md:py-0 h-full ${libre.className}`}>
         {!address && (
           <div className="text-center md:text-left">
-          <h1 className="text-white md:text-5xl text-4xl font-bold mb-4">Connect Wallet</h1>
-          <p className="text-gray-300 mb-6 text-[18px] md:text-[19px]">
+          <h1 className={`text-white md:text-5xl text-4xl font-bold mb-4 ${work.className}`}>Connect Wallet</h1>
+          <p className={`text-gray-300 mb-6 text-[18px] md:text-[19px] ${work.className}`}>
             Choose a wallet you want to connect.<br />
             There are several wallet providers.
           </p>
-            <ConnectWallet className="px-6 py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px]"/>
+            <ConnectWallet className={`px-6 py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] w-full ${lato.className}`}/>
         </div>
         )}
         {/*  */}
@@ -47,12 +47,12 @@ const ConnectionPage: React.FC = () => {
           <div className='text-center flex flex-col justify-center items-center'>
               <img src={checkMark.src} alt="check mark" className='mb-2'/>
 
-                  <div className='bg-[#ffffff] opacity-20 p-3 mb-10 rounded-[15px] text-[18px] md:text-[20px]'>
+                  <div className={`p-3 text-white mb-10 rounded-[15px] text-[18px] md:text-[20px] ${work.className}`}>
                     <Name address={account.addresses?.[0]} chain={base}/>
                   </div>
 
-              <button className="py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px]">
-                <Link href="/marketplace">Go To Marketplace</Link>
+              <button className={`py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px] ${lato.className}`}>
+                <Link href="/create-account">Create Account</Link>
               </button>
           </div>
           )}
