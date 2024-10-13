@@ -191,6 +191,12 @@ const Page = () => {
                     <p>{profile.name}</p>
                     <p>{profile.type}</p>
                   </div>
+                  <div
+                    className={`w-full flex flex-col gap-2 font-semibold text-sm ${lato.className}`}
+                  >
+                    <Button>View Store</Button>
+                    <Button>Edit Profile</Button>
+                  </div>
                 </div>
               </div>
             </div>
