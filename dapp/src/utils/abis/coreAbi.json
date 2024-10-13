@@ -1,0 +1,392 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_iRegistry", "type": "address" },
+      { "internalType": "address", "name": "_accountProxy", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "business",
+        "type": "address"
+      }
+    ],
+    "name": "BusinessOnboarded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "business",
+        "type": "address"
+      }
+    ],
+    "name": "BusinessProfileUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "investor",
+        "type": "address"
+      }
+    ],
+    "name": "InvestorOnboarded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "investor",
+        "type": "address"
+      }
+    ],
+    "name": "InvestorProfileUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+    "name": "allBusinessProfiles",
+    "outputs": [
+      { "internalType": "string", "name": "businessName", "type": "string" },
+      {
+        "internalType": "string",
+        "name": "businessDescription",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "businessLocation",
+        "type": "string"
+      },
+      { "internalType": "string", "name": "businessSymbol", "type": "string" },
+      { "internalType": "address", "name": "businessOwner", "type": "address" },
+      { "internalType": "address", "name": "store", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "tokenboundAddr",
+        "type": "address"
+      },
+      { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+    "name": "allInvestorProfiles",
+    "outputs": [
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "string", "name": "location", "type": "string" },
+      { "internalType": "string", "name": "symbol", "type": "string" },
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "tokenboundAddr",
+        "type": "address"
+      },
+      { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "campaignFactory",
+    "outputs": [
+      {
+        "internalType": "contract CampaignFactory",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string", "name": "_location", "type": "string" },
+      { "internalType": "string", "name": "_symbol", "type": "string" },
+      { "internalType": "uint16", "name": "_profileId", "type": "uint16" }
+    ],
+    "name": "editBusinessProfile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string", "name": "_location", "type": "string" },
+      { "internalType": "string", "name": "_symbol", "type": "string" },
+      { "internalType": "uint16", "name": "_profileId", "type": "uint16" }
+    ],
+    "name": "editInvestorProfile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllBusinessProfiles",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "businessName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessDescription",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessLocation",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessSymbol",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "businessOwner",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "store", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenboundAddr",
+            "type": "address"
+          },
+          { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+        ],
+        "internalType": "struct AgroBaseCore.BusinessProfileDetails[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllInvestorProfiles",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "description", "type": "string" },
+          { "internalType": "string", "name": "location", "type": "string" },
+          { "internalType": "string", "name": "symbol", "type": "string" },
+          { "internalType": "address", "name": "user", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenboundAddr",
+            "type": "address"
+          },
+          { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+        ],
+        "internalType": "struct AgroBaseCore.InvestorProfileDetails[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint16", "name": "_profileId", "type": "uint16" }
+    ],
+    "name": "getBusinessProfile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "businessName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessDescription",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessLocation",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "businessSymbol",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "businessOwner",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "store", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenboundAddr",
+            "type": "address"
+          },
+          { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+        ],
+        "internalType": "struct AgroBaseCore.BusinessProfileDetails",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint16", "name": "_profileId", "type": "uint16" }
+    ],
+    "name": "getInvestorProfile",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "description", "type": "string" },
+          { "internalType": "string", "name": "location", "type": "string" },
+          { "internalType": "string", "name": "symbol", "type": "string" },
+          { "internalType": "address", "name": "user", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenboundAddr",
+            "type": "address"
+          },
+          { "internalType": "uint16", "name": "profileID", "type": "uint16" }
+        ],
+        "internalType": "struct AgroBaseCore.InvestorProfileDetails",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "iAccountProxy",
+    "outputs": [
+      {
+        "internalType": "contract IAccountProxy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "iRegistry",
+    "outputs": [
+      {
+        "internalType": "contract IERC6551Registry",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "isBusiness",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "isInvestor",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "marketplaceFactory",
+    "outputs": [
+      {
+        "internalType": "contract AgroMarketPlaceFactory",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "business", "type": "address" },
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "string", "name": "farmLocation", "type": "string" },
+      { "internalType": "string", "name": "_symbol", "type": "string" }
+    ],
+    "name": "onboardBusiness",
+    "outputs": [
+      { "internalType": "address", "name": "_profile", "type": "address" },
+      { "internalType": "address", "name": "_marketPlace", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_agroBaseProfile",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "investor", "type": "address" },
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string", "name": "_location", "type": "string" },
+      { "internalType": "string", "name": "_symbol", "type": "string" }
+    ],
+    "name": "onboardInvestor",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "_agroBaseProfile",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "_profile", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
