@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
       className={`bg-[#042B2B] text-white py-8  border-t border-[#2B2B2B] w-full flex flex-col items-center ${fontGrotesk.className}`}
     >
       <div className="w-10/12">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-3">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-6 lg:gap-0">
           <div>
             <Image className="mb-7" src={AfroBaseLogo} alt="logo" />
             <p className={`text-sm text-[#cccccc] mb-4 ${work.className}`}>
@@ -52,25 +52,25 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   className="hover:underline"
-                  href={pathName == "/marketplace" ? "/" : "marketplace"}
+                  href={pathName == "/marketplace" ? "/" : "/marketplace"}
                 >
                   {pathName == "/marketplace" ? "Home" : "Marketplace"}
                 </Link>
               </li>
               <li>
-                <Link className="hover:underline" href="community">
+                <Link className="hover:underline" href="/community">
                   Community
                 </Link>
               </li>
               <li>
-                <Link className="hover:underline" href="rankings">
+                <Link className="hover:underline" href="/rankings">
                   Rankings
                 </Link>
               </li>
               <li>
                 <Link
                   className="hover:underline"
-                  href={pathName == "/connect-wallet" ? "/" : "connect-wallet"}
+                  href={pathName == "/connect-wallet" ? "/" : "/connect-wallet"}
                 >
                   {pathName == "/connect-wallet" ? "Home" : "Connect a wallet"}
                 </Link>

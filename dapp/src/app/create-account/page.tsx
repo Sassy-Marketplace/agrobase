@@ -3,7 +3,7 @@ import { Footer, Navbar } from "@/components";
 import AfroBaseLogo from "@/assets/logo.svg";
 import {UserIcon, BriefcaseIcon, MapPinIcon, LockIcon} from "lucide-react"
 import Image from "next/image";
-import { libre } from "@/components/Font";
+import { lato, libre, work } from "@/components/Font";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,9 +49,9 @@ const ConnectAccount : React.FC = () => {
                 </div>
 
                 {/* Right section with connect wallet */}
-                <div className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0 ${libre.className}`}>
-                    <h1 className="text-left md:text-center text-white text-4xl md:text-5xl mb-3 font-bold pl-7 md:pl-0">Create Account</h1>
-                    <p className="text-left md:text-center text-gray-400 text-[17px] md:text-[19px] mb-5 pl-7 md:pl-0">
+                <div className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-left md:items-center justify-center py-8 md:py-0 ${work.className}`}>
+                    <h1 className={`text-left md:text-center text-white text-4xl md:text-5xl mb-3 font-bold pl-7 md:pl-0`}>Create Account</h1>
+                    <p className={`text-left md:text-center text-gray-400 text-[17px] md:text-[19px] mb-5 pl-7 md:pl-0`}>
                     Welcome! Enter your details and start creating, <br /> purchasing, selling, and investing.
                     </p>
 
@@ -65,18 +65,18 @@ const ConnectAccount : React.FC = () => {
                             type="text"
                             id="username"
                             placeholder="Username"
-                            className="bg-transparent outline-none w-full text-gray-800"
+                            className="bg-transparent outline-none w-full text-gray-900"
                         />
                         </div>
 
                         {/* Account type */}
                         <div className="flex items-center bg-white rounded-[20px] text-gray-400 mb-4 px-4 py-3">
                         <BriefcaseIcon className="text-gray-400 mr-3" />
-                        <select id="account-type" name="Account Type" className="bg-transparent outline-none w-full text-gray-800" >
+                        <select id="account-type" name="Account Type" className="bg-transparent outline-none w-full " >
                             <option disabled selected value="" className="text-gray-400">Account Type</option>
-                            <option value="business" className="text-gray-800">Farmer</option>
-                            <option value="business" className="text-gray-800">Investor</option>
-                            <option value="user" className="text-gray-800">Buyer</option>
+                            <option value="business" className="">Farmer</option>
+                            <option value="business" className="">Investor</option>
+                            <option value="user" className="">Buyer</option>
                         </select>
                         </div>
 
@@ -87,7 +87,7 @@ const ConnectAccount : React.FC = () => {
                             id="location"
                             type="text"
                             placeholder="Location"
-                            className="bg-transparent outline-none w-full text-gray-800"
+                            className="bg-transparent outline-none w-full text-gray-900"
                         />
                         </div>
 
@@ -98,12 +98,12 @@ const ConnectAccount : React.FC = () => {
                             id="about"
                             type="text"
                             placeholder="About you"
-                            className="bg-transparent outline-none w-full text-gray-800 h-full"
+                            className="bg-transparent outline-none w-full text-gray-900 h-full"
                         />
                         </div>
 
                         {/* Submit Button */}
-                        <button onClick={handleCreateAccount} className="w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px]">
+                        <button onClick={handleCreateAccount} className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}>
                         Create account
                         </button>
                     </div>

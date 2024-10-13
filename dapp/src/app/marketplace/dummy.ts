@@ -1,8 +1,12 @@
 import { IProducts } from "@/components/products/interface";
-import img1 from "../../assets/img1.png";
-import img2 from "../../assets/img2.png";
-import img3 from "../../assets/img3.png";
-import img4 from "../../assets/img4.png";
+import img1 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-1.svg";
+import img2 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-2.svg";
+import img3 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-3.svg";
+import img4 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-4.svg";
+import img5 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-5.svg";
+import img6 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-6.svg";
+import img7 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon-7.svg";
+import img8 from "@/assets/DEZ TEAM UP (2)/crops/Photo & Icon.svg";
 
 export const products: IProducts[] = [
   {
@@ -41,7 +45,7 @@ export const products: IProducts[] = [
     id: 5,
     name: "Green Pea",
     location: "Zambia",
-    image: img2.src,
+    image: img5.src,
     price: "1.63 ETH",
     highestBid: "0.33 wETH",
   },
@@ -49,19 +53,8 @@ export const products: IProducts[] = [
     id: 6,
     name: "Eve Apple",
     location: "BeKind2Robots",
-    image: img3.src,
+    image: img6.src,
     price: "1.63 ETH",
     highestBid: "0.33 wETH",
-  },
-];
-
-export const campaigns = [
-  {
-    id: 7,
-    name: "Campaign 1",
-    location: "Location 1",
-    image: img3.src,
-    price: "2.5 ETH",
-    highestBid: "0.5 wETH",
   },
 ];
