@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { fontGrotesk, libre } from "@/components/Font";
 import { Navbar, ProductsDIsplay } from "@/components";
 import Footer from "@/components/landing/Footer";
@@ -7,13 +7,61 @@ import MarketPlaceHero from "./hero";
 import { products } from "./dummy";
 import { campaigns } from "../campaigns/dummy";
 import CampaignsDisplay from "@/components/campaigns/CampaignsDisplay";
+import { usePrepareTransactionRequest, useReadContract } from "wagmi";
+import marketABI from "@/utils/abis/marketAbi.json"
+import marketFactoryABI from "@/utils/abis/marketFactoryAbi.json"
+import { useRead } from "@/utils/fetchContracts";
+import { useAccount } from "wagmi";
 // 03ED0E
 
 const MarketPlacePage: React.FC = () => {
-    
     const [activeTab, setActiveTab] = useState("products");
+    const [marketPlaceAddress, setMarketPlaceAddress] = useState("");
+    const [marketItems, setMarketItems] = useState([]);
+    const { address } = useAccount();
+    
 
     const tabContents = activeTab == "products" ? products : campaigns;
+
+
+    const {data: marketPlaceInstance,  error: marketPlaceInstanceError, isLoading: marketPlaceInstanceLoading} = useRead({
+        functionName: "getMarketPlace",
+        contractName: "marketFactory",
+        account: "0x04f6431098126Ded648f3C5589E2EF3beac09E15"
+    })
+
+    // fetchMarketItems
+
+    useEffect(() => {
+        if(marketPlaceInstanceError){
+            console.error("Error fetching marketplace data: ", marketPlaceInstanceError);
+        }
+    }, [marketPlaceInstanceError])
+
+    // useEffect(() => {
+    //     if(marketPlaceInstance){
+    //         setMarketPlaceAddress(marketPlaceInstance as string);
+    //     }
+    // }, [marketPlaceAddress])
+
+    console.log("marketplace instance is loading: ", marketPlaceInstanceLoading)
+
+    console.log("marketplace instance data: ", marketPlaceInstance);
+
+    const {data: items, error: itemsError, isLoading: itemsLoading} = useRead({
+        contractName: "marketFactory",
+        functionName: "fetchMarketItems"
+    })
+
+    // useEffect(() => {
+    //     if(items) {
+    //         setMarketItems(items as any);
+    //     }
+    // }, [items])
+
+    console.log("marketplace items is loading: ", itemsLoading)
+
+    console.log("marketplace items data: ", items);
 
     return(
         <div className="h-full bg-[#042B2B] flex flex-col justify-between items-center text-white w-full">
