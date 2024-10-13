@@ -10,6 +10,7 @@ const CampaignsDisplay : React.FC<{campaigns: ICampaign[]}> = ({campaigns}) => {
     return(
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
                 {campaigns.map((campaign, index) => (
+                <div>
                 <div key={index} className="rounded-t-xl rounded-b-3xl bg-[#2B2B2B] rounded-t-xl pb-5 shadow-md hover:scale-105 transition-transform">
                     {/* Product Image */}
                     <div className="overflow-hidden rounded-tl-xl rounded-tr-xl mb-4">
@@ -38,11 +39,11 @@ const CampaignsDisplay : React.FC<{campaigns: ICampaign[]}> = ({campaigns}) => {
                                     <strong className="text-gray-400 text-xs text-right">Highest Bid</strong> <span className="text-[16px]">{campaign.highestBid}</span>
                                 </p>
                             </div>
-                        
-                            <Button className={`px-[3rem] py-[1.3rem] rounded-[0.9rem] bg-[#042B2B] text-white border-[1px] border-[#03ED0E] mx-5 ${lato.className}`} onClick={()=>router.push(`/campaigns/${campaign.id}`)}>
+                    </div>
+                </div>
+                <Button className={`px-[3rem] py-[1.3rem] rounded-[0.9rem] bg-[#042B2B] text-white border-[1px] border-[#03ED0E] w-full my-5 ${lato.className}`} onClick={()=>router.push(`/campaigns/${campaign.id}`)}>
                                 Join
                             </Button>
-                    </div>
                 </div>
                 ))}
             </div>
