@@ -1,3 +1,4 @@
+"use client";
 import NavBar from "@/components/Navbar";
 import Footer from "@/components/landing/Footer";
 import { Button } from "@nextui-org/react";
@@ -9,8 +10,14 @@ import BannerImg from "@/assets/DEZ TEAM UP (2)/Image PlaceHolder.svg";
 import ProfileIng from "@/assets/DEZ TEAM UP (2)/Ellipse 56.svg";
 import { lato, mont, space, work } from "@/components/Font";
 import { Products } from "./Products";
+import { useRead } from "@/utils/fetchContracts";
 
 const Page = () => {
+  const data = useRead({
+    contractName: "core",
+    functionName: "getAllBusinessProfiles",
+  });
+  console.log(data);
   return (
     <main className="bg-[#042b2b]">
       <NavBar />
