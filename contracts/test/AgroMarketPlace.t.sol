@@ -93,5 +93,14 @@ contract AgroMarketPlaceTest is Test {
         assertEq(items[0].sold, false);
     }
 
+    function testFetchAllMarketPlaceItems() public {
+        testListItemForSale();
+        AgroMarketPlace.MarketPlaceItem[] memory items = agroMarketPlaceFactory.fetchAllMarketItems();
+
+        assertEq(items.length, 1);
+        assertEq(items[0].name, "Green Apple");
+        assertEq(items[0].sold, false);
+    }
+    
     receive() external payable {}
 }

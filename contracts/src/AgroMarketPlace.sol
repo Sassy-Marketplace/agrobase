@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract AgroMarketPlaceFactory {
     mapping(address => address) public agroMarketPlaceInstances;
+    address[] public allMarketPlaces;
+
     event MarketPlaceCreated(
         address indexed owner,
         address indexed agroMarketPlaceAddress
@@ -16,11 +18,57 @@ contract AgroMarketPlaceFactory {
             payable(owner)
         );
         agroMarketPlaceInstances[owner] = address(newAgroMarketPlace);
+        allMarketPlaces.push(address(newAgroMarketPlace));
         emit MarketPlaceCreated(owner, address(newAgroMarketPlace));
     }
 
     function getMarketPlace(address owner) public view returns (address) {
         return agroMarketPlaceInstances[owner];
+    }
+
+    function fetchAllMarketItems()
+        public
+        view
+        returns (AgroMarketPlace.MarketPlaceItem[] memory)
+    {
+        uint256 totalItemsFetched = 0;
+        uint256 totalItems = 0;
+        uint256 maxItemsPerMarketplace = 10;
+
+        // Calculate total items
+        for (uint256 i = 0; i < allMarketPlaces.length; i++) {
+            AgroMarketPlace marketplace = AgroMarketPlace(
+                payable(allMarketPlaces[i])
+            );
+            uint256 marketPlaceItemCount = marketplace
+                .fetchMarketItems()
+                .length;
+            totalItems += (marketPlaceItemCount > maxItemsPerMarketplace)
+                ? maxItemsPerMarketplace
+                : marketPlaceItemCount;
+        }
+
+        AgroMarketPlace.MarketPlaceItem[]
+            memory allItems = new AgroMarketPlace.MarketPlaceItem[](totalItems);
+
+        for (uint256 i = 0; i < allMarketPlaces.length; i++) {
+            AgroMarketPlace marketplace = AgroMarketPlace(
+                payable(allMarketPlaces[i])
+            );
+            AgroMarketPlace.MarketPlaceItem[] memory fetchedItems = marketplace
+                .fetchMarketItems();
+            uint256 itemsToFecth = (fetchedItems.length >
+                maxItemsPerMarketplace)
+                ? maxItemsPerMarketplace
+                : fetchedItems.length;
+
+            for (uint256 j; j < fetchedItems.length; j++) {
+                allItems[totalItemsFetched] = fetchedItems[j];
+                totalItemsFetched++;
+            }
+        }
+
+        return allItems;
     }
 
     receive() external payable {}
@@ -157,8 +205,7 @@ contract AgroMarketPlace is ReentrancyGuard {
     // Querying the marketplace items
     function fetchMarketItems() public view returns (MarketPlaceItem[] memory) {
         uint256 itemCount = _itemIds;
-        uint256 unsoldItemsCount = (_itemIds) -
-            (_itemsSold);
+        uint256 unsoldItemsCount = (_itemIds) - (_itemsSold);
         uint256 currentIndex = 0;
         MarketPlaceItem[] memory items = new MarketPlaceItem[](
             unsoldItemsCount
