@@ -33,13 +33,19 @@ contract AgroMarketPlaceFactory {
     {
         uint256 totalItemsFetched = 0;
         uint256 totalItems = 0;
+        uint256 maxItemsPerMarketplace = 3;
 
         // Calculate total items
         for (uint256 i = 0; i < allMarketPlaces.length; i++) {
             AgroMarketPlace marketplace = AgroMarketPlace(
                 payable(allMarketPlaces[i])
             );
-            totalItems += marketplace.fetchMarketItems().length;
+            uint256 marketPlaceItemCount = marketplace
+                .fetchMarketItems()
+                .length;
+            totalItems += (marketPlaceItemCount > maxItemsPerMarketplace)
+                ? maxItemsPerMarketplace
+                : marketPlaceItemCount;
         }
 
         AgroMarketPlace.MarketPlaceItem[]
@@ -51,6 +57,10 @@ contract AgroMarketPlaceFactory {
             );
             AgroMarketPlace.MarketPlaceItem[] memory fetchedItems = marketplace
                 .fetchMarketItems();
+            uint256 itemsToFecth = (fetchedItems.length >
+                maxItemsPerMarketplace)
+                ? maxItemsPerMarketplace
+                : fetchedItems.length;
 
             for (uint256 j; j < fetchedItems.length; j++) {
                 allItems[totalItemsFetched] = fetchedItems[j];
