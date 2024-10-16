@@ -33,7 +33,7 @@ contract AgroMarketPlaceFactory {
     {
         uint256 totalItemsFetched = 0;
         uint256 totalItems = 0;
-        uint256 maxItemsPerMarketplace = 3;
+        uint256 maxItemsPerMarketplace = 10;
 
         // Calculate total items
         for (uint256 i = 0; i < allMarketPlaces.length; i++) {
