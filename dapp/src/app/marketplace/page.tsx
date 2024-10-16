@@ -27,7 +27,7 @@ const MarketPlacePage: React.FC = () => {
     const {data: marketPlaceInstance,  error: marketPlaceInstanceError, isLoading: marketPlaceInstanceLoading} = useRead({
         functionName: "getMarketPlace",
         contractName: "marketFactory",
-        account: "0x04f6431098126Ded648f3C5589E2EF3beac09E15"
+        account: address
     })
 
     // fetchMarketItems

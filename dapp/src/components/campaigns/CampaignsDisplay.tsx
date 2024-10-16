@@ -4,6 +4,16 @@ import { Button } from "@nextui-org/react";
 import { lato, space, work } from "../Font";
 import { useRouter } from "next/navigation";
 
+    // event CampaignCreated(
+    //     bytes32 indexed campaignId,
+    //     address campaignAddress,
+    //     string name,
+    //     uint256 duration,
+    //     uint256 goal,
+    //     address tokenAddress,
+    //     address nftAddress
+    // );
+
 const CampaignsDisplay : React.FC<{campaigns: ICampaign[]}> = ({campaigns}) => {
     const router = useRouter();
     
