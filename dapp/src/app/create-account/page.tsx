@@ -53,7 +53,6 @@ const ConnectAccount: React.FC = () => {
             type: "success",
             autoClose: 3000,
           });
-        console.log(coreAbi, coreAddress);
         console.log(res);
 
         // Redirect to marketplace
