@@ -4,7 +4,7 @@ import Footer from "@/components/landing/Footer";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
-import { profileDetails } from "./mockinfo";
+import { profileDetails } from "./mock";
 import { Bot, Globe } from "lucide-react";
 import BannerImg from "@/assets/DEZ TEAM UP (2)/Image PlaceHolder.svg";
 import ProfileIng from "@/assets/DEZ TEAM UP (2)/Ellipse 56.svg";
@@ -18,6 +18,7 @@ const Page = () => {
     functionName: "getAllBusinessProfiles",
   });
   console.log(data);
+
   return (
     <main className="bg-[#042b2b]">
       <NavBar />

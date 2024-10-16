@@ -1,7 +1,7 @@
 import { lato, work } from "@/components/Font";
 import { Button, Link } from "@nextui-org/react";
 import React from "react";
-import { products } from "./mockinfo";
+import { products } from "./mock";
 import { Card } from "./Card";
 
 export const Products = () => {
