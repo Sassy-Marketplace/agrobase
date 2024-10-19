@@ -7,6 +7,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { getConfig } from "@/wagmi";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { base } from "viem/chains";
+import AgrobaseProvider from "@/context";
 
 export function Providers(props: {
   children: ReactNode;
@@ -23,7 +24,7 @@ export function Providers(props: {
             apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
             chain={base}
           >
-            {props.children}
+            <AgrobaseProvider>{props.children}</AgrobaseProvider>
           </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

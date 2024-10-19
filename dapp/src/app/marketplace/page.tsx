@@ -43,12 +43,6 @@ const MarketPlacePage: React.FC = () => {
     }
   }, [marketPlaceInstanceError]);
 
-  // useEffect(() => {
-  //     if(marketPlaceInstance){
-  //         setMarketPlaceAddress(marketPlaceInstance as string);
-  //     }
-  // }, [marketPlaceAddress])
-
   console.log("marketplace instance is loading: ", marketPlaceInstanceLoading);
 
   console.log("marketplace instance data: ", marketPlaceInstance);
@@ -61,12 +55,6 @@ const MarketPlacePage: React.FC = () => {
     contractName: "marketFactory",
     functionName: "fetchMarketItems",
   });
-
-  // useEffect(() => {
-  //     if(items) {
-  //         setMarketItems(items as any);
-  //     }
-  // }, [items])
 
   console.log("marketplace items is loading: ", itemsLoading);
 

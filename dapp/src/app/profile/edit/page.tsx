@@ -1,47 +1,48 @@
 "use client";
 import { Footer, Navbar } from "@/components";
 import AfroBaseLogo from "@/assets/logo.svg";
-import { UserIcon, BriefcaseIcon, MapPinIcon, LockIcon } from "lucide-react";
+import { UserIcon, MapPinIcon, LockIcon, EditIcon } from "lucide-react";
 import Image from "next/image";
 import { lato, work } from "@/components/Font";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAccount, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { useEffect, useState } from "react";
 import coreAbi from "@/utils/abis/coreAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
+import { useAgrobaseContext } from "@/context";
 
-const ConnectAccount: React.FC = () => {
+const EditProfile: React.FC = () => {
   const router = useRouter();
-  const { address } = useAccount();
+  const { userData, statusBiz } = useAgrobaseContext();
 
   // State to store form input values
   const [username, setUsername] = useState("");
-  const [accountType, setAccountType] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
+  const [symbol, setSymbol] = useState("");
 
   const { data, writeContract, isPending, isSuccess, isError } =
     useWriteContract();
 
   useEffect(() => {
     if (isSuccess) {
-      toast("Account created successfully", {
+      toast("Account edited successfully", {
         className: "bg-green-500 text-white",
         type: "success",
         autoClose: 3000,
       });
 
       // Redirect to marketplace after 2 seconds
-      setTimeout(() => router.push("/marketplace"), 2000);
+      setTimeout(() => router.push("/profile"), 2000);
     }
   }, [isSuccess]);
 
-  const handleCreateAccount = async () => {
-    if (!username || !accountType || !location || !about) {
+  const handleEditAccount = async () => {
+    if (!username || !location || !about) {
       // Show toast notification for missing fields
-      toast("All fields are required", {
+      toast("Fill all required fields", {
         className: "bg-red-500 text-white",
         type: "error",
         style: { background: "#EF4444", color: "white" },
@@ -51,21 +52,18 @@ const ConnectAccount: React.FC = () => {
     } else {
       try {
         // Perform contract write operation here
-        console.log(address);
-        console.log(data);
 
         const res = writeContract({
           abi: coreAbi,
           address: coreAddress,
-          functionName:
-            accountType == "business" ? "onboardBusiness" : "onboardInvestor",
-          args: [address, username, about, location, ""],
+          functionName: statusBiz
+            ? "editBusinessProfile"
+            : "editInvestorProfile",
+          args: [username, about, location, symbol, userData?.profileID],
         });
-
-        console.log(res);
       } catch (err) {
         isError &&
-          toast("Account creation failed", {
+          toast("Account editing failed", {
             className: "bg-red-500 text-white",
             type: "error",
             autoClose: 3000,
@@ -102,13 +100,12 @@ const ConnectAccount: React.FC = () => {
           <h1
             className={`text-left md:text-center text-white text-4xl md:text-5xl mb-3 font-bold pl-7 md:pl-0`}
           >
-            Create Account
+            Edit Account
           </h1>
           <p
             className={`text-left md:text-center text-gray-400 text-[17px] md:text-[19px] mb-5 pl-7 md:pl-0`}
           >
-            Welcome! Enter your details and start creating, <br /> purchasing,
-            selling, and investing.
+            Enter your details to edit your profile.
           </p>
 
           {/* Form */}
@@ -122,27 +119,22 @@ const ConnectAccount: React.FC = () => {
                   id="username"
                   placeholder="Username"
                   className="bg-transparent outline-none w-full text-gray-900"
-                  value={username}
+                  defaultValue={userData?.name || userData?.businessName}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
 
               {/* Account type */}
               <div className="flex items-center bg-white rounded-[20px] text-gray-400 mb-4 px-4 py-3">
-                <BriefcaseIcon className="text-gray-400 mr-3" />
-                <select
-                  id="account-type"
-                  name="Account Type"
-                  className="bg-transparent outline-none w-full "
-                  value={accountType}
-                  onChange={(e) => setAccountType(e.target.value)}
-                >
-                  <option disabled selected value="" className="text-gray-400">
-                    Account Type
-                  </option>
-                  <option value="business">Business</option>
-                  <option value="investor">Investor</option>
-                </select>
+                <EditIcon className="text-gray-400 mr-3" />
+                <input
+                  type="text"
+                  id="symbol"
+                  placeholder="Symbol, Slang, A.K.A"
+                  className="bg-transparent outline-none w-full text-gray-900"
+                  value={symbol}
+                  onChange={(e) => setSymbol(e.target.value)}
+                />
               </div>
 
               {/* Location */}
@@ -153,7 +145,9 @@ const ConnectAccount: React.FC = () => {
                   type="text"
                   placeholder="Location"
                   className="bg-transparent outline-none w-full text-gray-900"
-                  value={location}
+                  defaultValue={
+                    userData?.businessLocation || userData?.location
+                  }
                   onChange={(e) => setLocation(e.target.value)}
                 />
               </div>
@@ -166,7 +160,9 @@ const ConnectAccount: React.FC = () => {
                   type="text"
                   placeholder="About you"
                   className="bg-transparent outline-none w-full text-gray-900 h-full"
-                  value={about}
+                  defaultValue={
+                    userData?.description || userData?.businessDescription
+                  }
                   onChange={(e) => setAbout(e.target.value)}
                 />
               </div>
@@ -174,10 +170,10 @@ const ConnectAccount: React.FC = () => {
               {/* Submit Button */}
               <button
                 disabled={isPending}
-                onClick={handleCreateAccount}
+                onClick={handleEditAccount}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >
-                Create account
+                Edit Account
               </button>
             </div>
           </div>
@@ -191,4 +187,4 @@ const ConnectAccount: React.FC = () => {
   );
 };
 
-export default ConnectAccount;
+export default EditProfile;
