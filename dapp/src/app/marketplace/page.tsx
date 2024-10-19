@@ -28,18 +28,18 @@ const MarketPlacePage: React.FC = () => {
   } = useRead({
     functionName: "fetchAllMarketItems",
     contractName: "marketFactory",
-    // account: address
+    args: [address],
   });
 
-  const fetchNFTDetails = async () => {
-    const {
-      data: nftData,
-      error: nftError,
-      isLoading: nftLoading,
-    } = useRead({
-      functionName: "",
-    });
-  };
+  // const fetchNFTDetails = async () => {
+  //   const {
+  //     data: nftData,
+  //     error: nftError,
+  //     isLoading: nftLoading,
+  //   } = useRead({
+  //     functionName: "",
+  //   });
+  // };
 
   useEffect(() => {
     if (marketPlaceError) {
