@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useRead } from "@/utils/fetchContracts";
 
 const Campaigns: React.FC = () => {
-    const [campaigns, setCampaigns] = useState([]);
+    const [_campaigns, setCampaigns] = useState([]);
     
     const {data: campaignsData, error: campaignsError, isLoading: campaignsLoading} = useRead({
         functionName: "getAllCampaigns",
@@ -26,7 +26,7 @@ const Campaigns: React.FC = () => {
         if(campaignsData){
             setCampaigns(campaignsData as any);
         }
-    }, [campaignsData, campaigns]);
+    }, [campaignsData, _campaigns]);
 
     console.log("campaigns is loading: ", campaignsLoading);
 
