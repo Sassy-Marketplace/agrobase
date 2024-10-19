@@ -49,7 +49,6 @@ contract AgroBaseCore {
  constructor(address _iRegistry, address _accountProxy) {
         iRegistry = IERC6551Registry(_iRegistry);
         iAccountProxy = IAccountProxy(_accountProxy);
-        campaignFactory = new CampaignFactory();
         marketplaceFactory = new AgroMarketPlaceFactory();
         businessIds = 0;
         userIds = 0;

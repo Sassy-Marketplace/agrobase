@@ -1,6 +1,6 @@
 "use client";
 import { Navbar } from "@/components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AfroBaseLogo from "@/assets/logo.svg";
 import { useAccount } from "wagmi";
 import { ConnectWallet } from "@coinbase/onchainkit/wallet";
@@ -18,25 +18,34 @@ const ConnectionPage: React.FC = () => {
   const account = useAccount();
   const route = useRouter();
 
-  const statusBiz = useRead({
+  const { data: statusBiz } = useRead({
     contractName: "core",
     functionName: "isBusiness",
     args: [address],
   });
 
-  const statusInv = useRead({
+  const { data: statusInv } = useRead({
     contractName: "core",
     functionName: "isInvestor",
     args: [address],
   });
 
   console.log(statusBiz, statusInv);
+  console.log(address);
 
-  if (isConnected && (statusBiz == true || statusInv == true)) {
-    route.push("/marketplace");
-  } else {
-    route.push("/create-account");
-  }
+  useEffect(() => {
+    if (typeof statusBiz === "boolean" || typeof statusInv === "boolean") {
+      if (isConnected == true) {
+        if (statusBiz == true || statusInv == true) {
+          console.log(statusBiz, statusInv);
+          route.push("/marketplace");
+        } else {
+          console.log(address);
+          route.push("/create-account");
+        }
+      }
+    }
+  }, [statusBiz, statusInv]);
 
   //
   return (
@@ -48,7 +57,7 @@ const ConnectionPage: React.FC = () => {
       <div className="flex flex-col md:flex-row lg:flex-row h-screen bg-[#042B2B] lg:p-4 p-0">
         {/* Left section with the logo */}
         <div className="md:w-1/2 w-full bg-[#2B2B2B] md:bg-[#115436] flex items-center justify-center py-1 md:py-0">
-          <div className="flex flex items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-1">
             <Image
               src={AfroBaseLogo}
               alt="Agrobase logo"
@@ -78,7 +87,7 @@ const ConnectionPage: React.FC = () => {
                 There are several wallet providers.
               </p>
               <ConnectWallet
-                className={`px-6 py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] w-full ${lato.className}`}
+                className={`py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] w-full ${lato.className}`}
               />
             </div>
           )}
