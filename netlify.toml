@@ -1,0 +1,7 @@
+[build]
+  base    = "dapp"
+  publish = "dapp/"
+  command = "npm run build"
+
+[context.production]
+  environment = { GIT_SUBMODULES = "false" }

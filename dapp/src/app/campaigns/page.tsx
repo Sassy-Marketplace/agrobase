@@ -24,9 +24,9 @@ const Campaigns: React.FC = () => {
 
     useEffect(() => {
         if(campaignsData){
-            setCampaigns(campaigns);
+            setCampaigns(campaignsData as any);
         }
-    }, [campaignsData]);
+    }, [campaignsData, campaigns]);
 
     console.log("campaigns is loading: ", campaignsLoading);
 

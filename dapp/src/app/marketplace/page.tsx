@@ -15,62 +15,48 @@ import { useAccount } from "wagmi";
 // 03ED0E
 
 const MarketPlacePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("products");
-  const [marketPlaceAddress, setMarketPlaceAddress] = useState("");
-  const [marketItems, setMarketItems] = useState([]);
-  const { address } = useAccount();
+    const [activeTab, setActiveTab] = useState("products");
+    const [marketItems, setMarketItems] = useState<any[]>([]);
+    const { address } = useAccount();
+    
 
   const tabContents = activeTab == "products" ? products : campaigns;
 
-  const {
-    data: marketPlaceInstance,
-    error: marketPlaceInstanceError,
-    isLoading: marketPlaceInstanceLoading,
-  } = useRead({
-    functionName: "getMarketPlace",
-    contractName: "marketFactory",
-    args: [address],
-  });
+    const {data: marketPlaceItems,  error: marketPlaceError, isLoading: marketPlaceLoading} = useRead({
+        functionName: "fetchAllMarketItems",
+        contractName: "marketFactory",
+        // account: address
+    })
 
-  // fetchMarketItems
-
-  useEffect(() => {
-    if (marketPlaceInstanceError) {
-      console.error(
-        "Error fetching marketplace data: ",
-        marketPlaceInstanceError
-      );
+    const fetchNFTDetails = async () => {
+        const {data: nftData, error: nftError, isLoading: nftLoading} = useRead({
+            functionName: ""
+        })
     }
-  }, [marketPlaceInstanceError]);
 
-  // useEffect(() => {
-  //     if(marketPlaceInstance){
-  //         setMarketPlaceAddress(marketPlaceInstance as string);
-  //     }
-  // }, [marketPlaceAddress])
+    useEffect(() => {
+        if(marketPlaceError){
+            console.error("Error fetching marketplace data: ", marketPlaceError);
+        }
+    }, [marketPlaceError])
 
-  console.log("marketplace instance is loading: ", marketPlaceInstanceLoading);
+    useEffect(() => {
+      if (marketPlaceItems) {
+        //@ts-expect-error
+        const formattedItems = marketPlaceItems.map(item => ({
+            ...item,
+            itemId: Number(item.itemId),
+            price: Number(item.price),
+            tokenId: Number(item.tokenId),
+        }));
+        console.log(`formatted item: `, formattedItems)
+        setMarketItems(formattedItems);
+      }
+    }, [marketPlaceItems, marketItems])
 
-  console.log("marketplace instance data: ", marketPlaceInstance);
+    console.log("marketPlaceItems  is loading: ", marketPlaceLoading)
 
-  const {
-    data: items,
-    error: itemsError,
-    isLoading: itemsLoading,
-  } = useRead({
-    contractName: "marketFactory",
-    functionName: "fetchMarketItems",
-  });
-
-  // useEffect(() => {
-  //     if(items) {
-  //         setMarketItems(items as any);
-  //     }
-  // }, [items])
-
-  console.log("marketplace items is loading: ", itemsLoading);
-
-  console.log("marketplace items data: ", items);
+    console.log("marketplace  data: ", marketItems);
 
   return (
     <div className="h-full bg-[#042B2B] flex flex-col justify-between items-center text-white w-full">
@@ -122,7 +108,7 @@ const MarketPlacePage: React.FC = () => {
         <div className="w-full flex flex-col items-center mb-[80px]">
           <div className="w-10/12">
             {activeTab === "products" ? (
-              <ProductsDIsplay tabContents={tabContents} />
+              <ProductsDIsplay tabContents={marketItems} />
             ) : (
               <CampaignsDisplay campaigns={tabContents} />
             )}
