@@ -43,14 +43,20 @@ contract AgroMarketPlaceTest is Test {
 
     function testListItemForSale() public {
         vm.prank(seller);
-        nft.approve(address(agroMarketPlace), 1);
-        vm.prank(seller);
+
         agroMarketPlace.listItemForSale(
-            address(nft),
-            1,
+            "Green Apple",
             1 ether,
-            "Green Apple"
+            "https://example.com/nft/metadata.json"
         );
+
+        AgroMarketPlace.MarketPlaceItem[] memory items = agroMarketPlace
+            .fetchMarketItems();
+
+        assertEq(items.length, 1);
+        assertEq(items[0].name, "Green Apple");
+        assertEq(items[0].price, 1 ether);
+        assertEq(items[0].seller, seller);
     }
 
     function testPurchaseItem() public {
@@ -95,12 +101,13 @@ contract AgroMarketPlaceTest is Test {
 
     function testFetchAllMarketPlaceItems() public {
         testListItemForSale();
-        AgroMarketPlace.MarketPlaceItem[] memory items = agroMarketPlaceFactory.fetchAllMarketItems();
+        AgroMarketPlace.MarketPlaceItem[] memory items = agroMarketPlaceFactory
+            .fetchAllMarketItems();
 
         assertEq(items.length, 1);
         assertEq(items[0].name, "Green Apple");
         assertEq(items[0].sold, false);
     }
-    
+
     receive() external payable {}
 }

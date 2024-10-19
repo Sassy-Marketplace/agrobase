@@ -5,9 +5,33 @@ import { campaigns } from "./dummy";
 import { Button } from "@nextui-org/react";
 import { lato, work } from "@/components/Font";
 import { Footer } from "@/components";
+import { useEffect, useState } from "react";
+import { useRead } from "@/utils/fetchContracts";
 
 const Campaigns: React.FC = () => {
+    const [campaigns, setCampaigns] = useState([]);
     
+    const {data: campaignsData, error: campaignsError, isLoading: campaignsLoading} = useRead({
+        functionName: "getAllCampaigns",
+        contractName: "campaignFactory",
+    });
+
+    useEffect(() => {
+        if(campaignsError){
+            console.error("Error fetching campaigns data: ", campaignsError);
+        }
+    }, [campaignsError]);
+
+    useEffect(() => {
+        if(campaignsData){
+            setCampaigns(campaigns);
+        }
+    }, [campaignsData]);
+
+    console.log("campaigns is loading: ", campaignsLoading);
+
+    console.log("campaigns data: ", campaignsData);
+
     return(
         <div>
             <NavBar/>

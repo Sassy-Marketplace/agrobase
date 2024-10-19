@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract AgroMarketPlaceFactory {
     mapping(address => address) public agroMarketPlaceInstances;
@@ -74,9 +75,10 @@ contract AgroMarketPlaceFactory {
     receive() external payable {}
 }
 
-contract AgroMarketPlace is ReentrancyGuard {
-    uint16 private _itemIds;
-    uint16 private _itemsSold;
+contract AgroMarketPlace is ERC721URIStorage, ReentrancyGuard {
+    uint256 private _tokenIds;
+    uint256 private _itemIds;
+    uint256 private _itemsSold;
 
     struct MarketPlaceItem {
         uint256 itemId;
@@ -92,10 +94,6 @@ contract AgroMarketPlace is ReentrancyGuard {
     address payable public owner;
 
     mapping(uint256 => MarketPlaceItem) public idToMarketPlaceItem;
-
-    constructor(address payable _owner) {
-        owner = _owner;
-    }
 
     /**
         Events
@@ -122,24 +120,31 @@ contract AgroMarketPlace is ReentrancyGuard {
         bool sold
     );
 
+    constructor(address payable _owner) ERC721("AgroNFT", "ANFT") {
+        owner = _owner;
+    }
+
     // Listing a marketlace item
     function listItemForSale(
-        address nftContract,
-        uint256 tokenId,
+        string memory name,
         uint256 price,
-        string memory name
+        string memory tokenURI
     ) public payable nonReentrant {
         require(price > 0, "Price must be greater than 0");
-        IERC721 nft = IERC721(nftContract);
-        require(nft.ownerOf(tokenId) == msg.sender, "Caller is not owner");
 
         _itemIds++;
         uint256 itemId = _itemIds;
 
+        _tokenIds++;
+        uint256 newTokenId = _tokenIds;
+
+        _mint(msg.sender, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
+
         idToMarketPlaceItem[itemId] = MarketPlaceItem(
             itemId,
-            nftContract,
-            tokenId,
+            address(this),
+            newTokenId,
             payable(msg.sender),
             name,
             price,
@@ -147,12 +152,12 @@ contract AgroMarketPlace is ReentrancyGuard {
             false
         );
 
-        nft.transferFrom(msg.sender, address(this), tokenId);
+        _transfer(msg.sender, address(this), newTokenId);
 
         emit MarketPlaceItemCreated(
             itemId,
-            nftContract,
-            tokenId,
+            address(this),
+            newTokenId,
             name,
             msg.sender,
             price,
@@ -180,11 +185,7 @@ contract AgroMarketPlace is ReentrancyGuard {
         (bool success, ) = item.seller.call{value: item.price}("");
         require(success, "Transfer to seller failed");
 
-        IERC721(item.nftContract).transferFrom(
-            address(this),
-            msg.sender,
-            item.tokenId
-        );
+        _transfer(address(this), msg.sender, item.tokenId);
 
         item.sold = true;
 
@@ -202,22 +203,52 @@ contract AgroMarketPlace is ReentrancyGuard {
         );
     }
 
-    // Querying the marketplace items
-    function fetchMarketItems() public view returns (MarketPlaceItem[] memory) {
+    function fetchItemsNotForSale()
+        public
+        view
+        returns (MarketPlaceItem[] memory)
+    {
         uint256 itemCount = _itemIds;
-        uint256 unsoldItemsCount = (_itemIds) - (_itemsSold);
+        uint256 unsoldItemsCount = _itemIds - _itemsSold;
         uint256 currentIndex = 0;
+
         MarketPlaceItem[] memory items = new MarketPlaceItem[](
             unsoldItemsCount
         );
 
         for (uint256 i = 0; i < itemCount; i++) {
-            uint256 currentId = idToMarketPlaceItem[i + 1].itemId;
-            MarketPlaceItem storage currentItem = idToMarketPlaceItem[
-                currentId
-            ];
-            items[currentIndex] = currentItem;
-            currentIndex++;
+            if (idToMarketPlaceItem[i + 1].isForSale == false) {
+                uint256 currentId = idToMarketPlaceItem[i + 1].itemId;
+                MarketPlaceItem storage currentItem = idToMarketPlaceItem[
+                    currentId
+                ];
+                items[currentIndex] = currentItem;
+                currentIndex++;
+            }
+        }
+
+        return items;
+    }
+
+    // Querying the marketplace items
+    function fetchMarketItems() public view returns (MarketPlaceItem[] memory) {
+        uint256 itemCount = _itemIds;
+        uint256 unsoldItemsCount = _itemIds - _itemsSold;
+        uint256 currentIndex = 0;
+
+        MarketPlaceItem[] memory items = new MarketPlaceItem[](
+            unsoldItemsCount
+        );
+
+        for (uint256 i = 0; i < itemCount; i++) {
+            if (idToMarketPlaceItem[i + 1].isForSale == true) {
+                uint256 currentId = idToMarketPlaceItem[i + 1].itemId;
+                MarketPlaceItem storage currentItem = idToMarketPlaceItem[
+                    currentId
+                ];
+                items[currentIndex] = currentItem;
+                currentIndex++;
+            }
         }
 
         return items;
