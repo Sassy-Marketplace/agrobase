@@ -16,52 +16,36 @@ import { useAccount } from "wagmi";
 
 const MarketPlacePage: React.FC = () => {
     const [activeTab, setActiveTab] = useState("products");
-    const [marketPlaceAddress, setMarketPlaceAddress] = useState("");
-    const [marketItems, setMarketItems] = useState([]);
+    const [marketItems, setMarketItems] = useState<any[]>([]);
     const { address } = useAccount();
     
 
     const tabContents = activeTab == "products" ? products : campaigns;
 
 
-    const {data: marketPlaceInstance,  error: marketPlaceInstanceError, isLoading: marketPlaceInstanceLoading} = useRead({
-        functionName: "getMarketPlace",
+    const {data: marketPlaceItems,  error: marketPlaceError, isLoading: marketPlaceLoading} = useRead({
+        functionName: "fetchAllMarketItems",
         contractName: "marketFactory",
-        account: address
+        // account: address
     })
 
     // fetchMarketItems
 
     useEffect(() => {
-        if(marketPlaceInstanceError){
-            console.error("Error fetching marketplace data: ", marketPlaceInstanceError);
+        if(marketPlaceError){
+            console.error("Error fetching marketplace data: ", marketPlaceError);
         }
-    }, [marketPlaceInstanceError])
+    }, [marketPlaceError])
 
-    // useEffect(() => {
-    //     if(marketPlaceInstance){
-    //         setMarketPlaceAddress(marketPlaceInstance as string);
-    //     }
-    // }, [marketPlaceAddress])
+    useEffect(() => {
+      if (marketPlaceItems && JSON.stringify(marketPlaceItems) !== JSON.stringify(marketItems)) {
+            setMarketItems(marketPlaceItems as any);
+        }
+    }, [marketPlaceItems, marketItems])
 
-    console.log("marketplace instance is loading: ", marketPlaceInstanceLoading)
+    console.log("marketPlaceItems  is loading: ", marketPlaceLoading)
 
-    console.log("marketplace instance data: ", marketPlaceInstance);
-
-    const {data: items, error: itemsError, isLoading: itemsLoading} = useRead({
-        contractName: "marketFactory",
-        functionName: "fetchMarketItems"
-    })
-
-    // useEffect(() => {
-    //     if(items) {
-    //         setMarketItems(items as any);
-    //     }
-    // }, [items])
-
-    console.log("marketplace items is loading: ", itemsLoading)
-
-    console.log("marketplace items data: ", items);
+    console.log("marketplace  data: ", marketPlaceItems);
 
     return(
         <div className="h-full bg-[#042B2B] flex flex-col justify-between items-center text-white w-full">

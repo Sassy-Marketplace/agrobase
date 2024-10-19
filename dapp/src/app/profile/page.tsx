@@ -4,7 +4,7 @@ import Footer from "@/components/landing/Footer";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
-import { profileDetails } from "./mock";
+import { profileDetails } from "./mockinfo";
 import { Bot, Globe } from "lucide-react";
 import BannerImg from "@/assets/DEZ TEAM UP (2)/Image PlaceHolder.svg";
 import ProfileIng from "@/assets/DEZ TEAM UP (2)/Ellipse 56.svg";
