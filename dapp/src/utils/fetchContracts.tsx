@@ -47,25 +47,19 @@ export const useRead = ({
   account,
   value,
 }: dataProps) => {
-
   let content = {
     abi: contractConfigs[contractName]?.abi,
     address: contractConfigs[contractName]?.address,
     functionName,
-  } as any
+  } as any;
 
-  if(args?.length){
+  if (args?.length) {
     content.args = args;
   }
 
   const { data, isLoading, error } = useReadContract();
 
-  console.log("abi: ", contractConfigs[contractName]?.abi)
-
-  console.log("error: ", error)
-  console.log("data: ", data)
-
-  return {data: data || [], isLoading, error};
+  return { data: data || [], isLoading, error };
 };
 
 // SAMPLE CALL USING THE HOOK
