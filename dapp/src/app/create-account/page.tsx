@@ -7,12 +7,10 @@ import { lato, work } from "@/components/Font";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { contractConfigs, useWrite } from "@/utils/fetchContracts";
 import { useAccount, useWriteContract } from "wagmi";
 import { useState } from "react";
 import coreAbi from "@/utils/abis/coreAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
-import { config } from "@/wagmi";
 
 const ConnectAccount: React.FC = () => {
   const router = useRouter();
@@ -24,8 +22,8 @@ const ConnectAccount: React.FC = () => {
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
 
-  const { writeContract, isPending, isSuccess, isError, error } =
-    useWriteContract({ config });
+  const { data, writeContract, isPending, isSuccess, isError } =
+    useWriteContract();
 
   const handleCreateAccount = async () => {
     if (!username || !accountType || !location || !about) {
@@ -40,6 +38,9 @@ const ConnectAccount: React.FC = () => {
     } else {
       try {
         // Perform contract write operation here
+        console.log(address);
+        console.log(data);
+
         const res = writeContract({
           abi: coreAbi,
           address: coreAddress,

@@ -57,9 +57,9 @@ export const useRead = ({
     content.args = args;
   }
 
-  const { data, isLoading, error } = useReadContract();
+  const { data, isLoading, error } = useReadContract(content);
 
-  return { data: data || [], isLoading, error };
+  return { data: data || null, isLoading, error };
 };
 
 // SAMPLE CALL USING THE HOOK

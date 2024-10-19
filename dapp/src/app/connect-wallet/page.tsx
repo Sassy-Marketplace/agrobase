@@ -1,6 +1,6 @@
 "use client";
 import { Navbar } from "@/components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AfroBaseLogo from "@/assets/logo.svg";
 import { useAccount } from "wagmi";
 import { ConnectWallet } from "@coinbase/onchainkit/wallet";
@@ -18,13 +18,13 @@ const ConnectionPage: React.FC = () => {
   const account = useAccount();
   const route = useRouter();
 
-  const statusBiz = useRead({
+  const { data: statusBiz } = useRead({
     contractName: "core",
     functionName: "isBusiness",
     args: [address],
   });
 
-  const statusInv = useRead({
+  const { data: statusInv } = useRead({
     contractName: "core",
     functionName: "isInvestor",
     args: [address],
@@ -33,13 +33,19 @@ const ConnectionPage: React.FC = () => {
   console.log(statusBiz, statusInv);
   console.log(address);
 
-  if (isConnected == true) {
-    if (statusBiz || statusInv) {
-      route.push("/marketplace");
-    } else {
-      route.push("/create-account");
+  useEffect(() => {
+    if (typeof statusBiz === "boolean" || typeof statusInv === "boolean") {
+      if (isConnected == true) {
+        if (statusBiz == true || statusInv == true) {
+          console.log(statusBiz, statusInv);
+          route.push("/marketplace");
+        } else {
+          console.log(address);
+          route.push("/create-account");
+        }
+      }
     }
-  }
+  }, [statusBiz, statusInv]);
 
   //
   return (
