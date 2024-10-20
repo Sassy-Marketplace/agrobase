@@ -1,6 +1,5 @@
 "use client";
 import { useRead } from "@/utils/fetchContracts";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useState, ReactNode, useContext } from "react";
 import { Address, zeroAddress } from "viem";
 import { useAccount } from "wagmi";

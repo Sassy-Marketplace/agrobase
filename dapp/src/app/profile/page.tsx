@@ -10,7 +10,6 @@ import UserBanner from "@/assets/DEZ TEAM UP (2)/userbanner.svg";
 import BusinessProfile from "@/assets/DEZ TEAM UP (2)/businessprofile.svg";
 import UserProfile from "@/assets/DEZ TEAM UP (2)/userprofile.svg";
 import { lato, mont, space, work } from "@/components/Font";
-import { Products } from "./Products";
 import { useAgrobaseContext } from "@/context";
 
 const Page = () => {
@@ -226,7 +225,11 @@ const Page = () => {
                 <div
                   className={`w-full flex flex-col gap-2 font-semibold text-sm ${lato.className}`}
                 >
-                  {statusBiz && <Button>View Store</Button>}
+                  {statusBiz && (
+                    <Button as={Link} href={`/profile/store`}>
+                      View Store
+                    </Button>
+                  )}
                   <Button as={Link} href={`/profile/edit`}>
                     Edit Profile
                   </Button>
@@ -236,7 +239,6 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Products />
       <Footer />
     </main>
   );

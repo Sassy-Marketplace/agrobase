@@ -7,9 +7,6 @@ import MarketPlaceHero from "./hero";
 import { products } from "./dummy";
 import { campaigns } from "../campaigns/dummy";
 import CampaignsDisplay from "@/components/campaigns/CampaignsDisplay";
-import { usePrepareTransactionRequest, useReadContract } from "wagmi";
-import marketABI from "@/utils/abis/marketAbi.json";
-import marketFactoryABI from "@/utils/abis/marketFactoryAbi.json";
 import { useRead } from "@/utils/fetchContracts";
 import { useAccount } from "wagmi";
 // 03ED0E
@@ -17,7 +14,6 @@ import { useAccount } from "wagmi";
 const MarketPlacePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("products");
   const [marketItems, setMarketItems] = useState<any[]>([]);
-  const { address } = useAccount();
 
   const tabContents = activeTab == "products" ? products : campaigns;
 
@@ -28,7 +24,6 @@ const MarketPlacePage: React.FC = () => {
   } = useRead({
     functionName: "fetchAllMarketItems",
     contractName: "marketFactory",
-    args: [address],
   });
 
   // const fetchNFTDetails = async () => {

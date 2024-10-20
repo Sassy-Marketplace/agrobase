@@ -9,7 +9,7 @@ export const Products = () => {
     <div className="my-[4rem] w-[80%] mx-auto flex flex-col gap-[3rem]">
       <div className="flex justify-between">
         <p className={`${work.className} text-2xl lg:text-4xl font-semibold`}>
-          Products
+          My Listings
         </p>
 
         <Button
