@@ -1,7 +1,14 @@
 "use client";
 import { Footer, Navbar } from "@/components";
 import AfroBaseLogo from "@/assets/logo.svg";
-import { UserIcon, MapPinIcon, LockIcon, EditIcon } from "lucide-react";
+import {
+  UserIcon,
+  MapPinIcon,
+  LockIcon,
+  EditIcon,
+  StoreIcon,
+  FileIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { lato, work } from "@/components/Font";
 import { useRouter } from "next/navigation";
@@ -9,9 +16,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useWriteContract } from "wagmi";
 import { useEffect, useState } from "react";
-import coreAbi from "@/utils/abis/coreAbi.json";
+import marketAbi from "@/utils/abis/marketAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
 import { useAgrobaseContext } from "@/context";
+import { pinFileToIPFS } from "@/utils/uploadToIpfs";
+import { parseEther } from "viem";
 
 const page = () => {
   const router = useRouter();
@@ -19,28 +28,52 @@ const page = () => {
 
   // State to store form input values
   const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [about, setAbout] = useState("");
-  const [symbol, setSymbol] = useState("");
+  const [uri, setUri] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [image, setImage] = useState<FileList | null>();
 
-  const { data, writeContract, isPending, isSuccess, isError } =
+  const { data, writeContract, isPending, isSuccess, isError, error } =
     useWriteContract();
 
   useEffect(() => {
+    if (uri) {
+      writeContract({
+        abi: marketAbi,
+        address: userData?.store!,
+        functionName: "listItemForSale",
+        args: [username, price, uri],
+        value: parseEther("0.0000001"),
+      });
+    }
+  }, [uri]);
+
+  useEffect(() => {
     if (isSuccess) {
-      toast("Account edited successfully", {
+      toast("Market Item Listed successfully", {
         className: "bg-green-500 text-white",
         type: "success",
         autoClose: 3000,
       });
 
       // Redirect to marketplace after 2 seconds
-      setTimeout(() => router.push("/profile"), 2000);
+      setTimeout(() => router.push("/marketplace"), 2000);
     }
   }, [isSuccess]);
 
-  const handleEditAccount = async () => {
-    if (!username || !location || !about) {
+  useEffect(() => {
+    console.error(error);
+
+    if (isError) {
+      toast("Market Item Listing failed", {
+        className: "bg-red-500 text-white",
+        type: "error",
+        autoClose: 3000,
+      });
+    }
+  }, [isError]);
+
+  const handleListItem = async () => {
+    if (!username || !price) {
       // Show toast notification for missing fields
       toast("Fill all required fields", {
         className: "bg-red-500 text-white",
@@ -51,19 +84,25 @@ const page = () => {
       });
     } else {
       try {
+        // writeContract({
+        //   abi: coreAbi,
+        //   address: coreAddress,
+        //   functionName: "listItemForSale",
+        //   args: [username, price, uri],
+        //   value: parseEther("0.0000000001"),
+        // });
         // Perform contract write operation here
-
-        const res = writeContract({
-          abi: coreAbi,
-          address: coreAddress,
-          functionName: statusBiz
-            ? "editBusinessProfile"
-            : "editInvestorProfile",
-          args: [username, about, location, symbol, userData?.profileID],
-        });
+        const imgUrl = await pinFileToIPFS(image);
+        if (imgUrl) {
+          toast.success("Upload Successful");
+          toast.info("Please wait while we list your image");
+          setUri(imgUrl);
+        } else {
+          toast.error("Error Uploading Image");
+        }
       } catch (err) {
         isError &&
-          toast("Account editing failed", {
+          toast("Market Item Listing failed", {
             className: "bg-red-500 text-white",
             type: "error",
             autoClose: 3000,
@@ -100,12 +139,12 @@ const page = () => {
           <h1
             className={`text-left md:text-center text-white text-4xl md:text-5xl mb-3 font-bold pl-7 md:pl-0`}
           >
-            Edit Account
+            List Market Item
           </h1>
           <p
             className={`text-left md:text-center text-gray-400 text-[17px] md:text-[19px] mb-5 pl-7 md:pl-0`}
           >
-            Enter your details to edit your profile.
+            Enter details of product.
           </p>
 
           {/* Form */}
@@ -113,13 +152,12 @@ const page = () => {
             <div className="w-full md:max-w-xs flex flex-col px-7 md:px-0">
               {/* Username */}
               <div className="flex items-center bg-white rounded-[20px] mb-4 px-4 py-3 w-full">
-                <UserIcon className="text-gray-400 mr-3" />
+                <StoreIcon className="text-gray-400 mr-3" />
                 <input
                   type="text"
                   id="username"
-                  placeholder="Username"
+                  placeholder="Item Name"
                   className="bg-transparent outline-none w-full text-gray-900"
-                  defaultValue={userData?.name || userData?.businessName}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
@@ -128,52 +166,35 @@ const page = () => {
               <div className="flex items-center bg-white rounded-[20px] text-gray-400 mb-4 px-4 py-3">
                 <EditIcon className="text-gray-400 mr-3" />
                 <input
-                  type="text"
-                  id="symbol"
-                  placeholder="Symbol, Slang, A.K.A"
+                  type="number"
+                  id="price"
+                  placeholder="Price"
                   className="bg-transparent outline-none w-full text-gray-900"
-                  value={symbol}
-                  onChange={(e) => setSymbol(e.target.value)}
+                  onChange={(e) => setPrice(+e.target.value)}
                 />
               </div>
 
-              {/* Location */}
-              <div className="flex items-center bg-white rounded-[20px] mb-4 px-4 py-3">
-                <MapPinIcon className="text-gray-400 mr-3" />
-                <input
-                  id="location"
-                  type="text"
-                  placeholder="Location"
-                  className="bg-transparent outline-none w-full text-gray-900"
-                  defaultValue={
-                    userData?.businessLocation || userData?.location
-                  }
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </div>
-
-              {/* About you */}
-              <div className="flex items-center bg-white rounded-[20px] h-[80px] mb-4 px-4 py-3">
-                <LockIcon className="text-gray-400 mr-3" />
-                <input
-                  id="about"
-                  type="text"
-                  placeholder="About you"
-                  className="bg-transparent outline-none w-full text-gray-900 h-full"
-                  defaultValue={
-                    userData?.description || userData?.businessDescription
-                  }
-                  onChange={(e) => setAbout(e.target.value)}
-                />
+              <div className="flex items-center bg-white rounded-[20px] text-gray-400 mb-4 px-4 py-3">
+                <FileIcon className="text-gray-400 mr-3" />
+                <label className="" htmlFor="item">
+                  <input
+                    type="file"
+                    name="item"
+                    id="item"
+                    placeholder="Item Image"
+                    className="bg-transparent outline-none w-full text-gray-900"
+                    onChange={(e) => setImage(e.currentTarget.files)}
+                  />
+                </label>
               </div>
 
               {/* Submit Button */}
               <button
                 disabled={isPending}
-                onClick={handleEditAccount}
+                onClick={handleListItem}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >
-                Edit Account
+                Add Item
               </button>
             </div>
           </div>

@@ -1,26 +1,69 @@
-import Image from "next/image";
-import { IProducts } from "./interface";
+// import Image from "next/image";
+import nftAbi from "@/utils/abis/nftAbi.json";
 import { space, work } from "../Font";
 import { useRouter } from "next/navigation";
+import { useReadContract } from "wagmi";
+import { useEffect, useState } from "react";
+import { Image, Skeleton } from "@nextui-org/react";
+import { Address } from "viem";
+import Link from "next/link";
 
-const ProductsDIsplay: React.FC<{ tabContents: any[] }> = ({ tabContents }) => {
+export const GetImage = ({
+  nftContract,
+  tokenId,
+}: {
+  nftContract: Address;
+  tokenId: string;
+}) => {
+  const { data, isLoading, error } = useReadContract({
+    abi: nftAbi,
+    address: nftContract,
+    functionName: "tokenURI",
+    args: [Number(tokenId)],
+  });
+  console.log("Get image data", data);
+
+  return (
+    <div className="flex flex-row justify-stretch h-full min-w-full px-2">
+      <Skeleton isLoaded={!isLoading} className="flex !w-full !h-full">
+        <Image
+          isBlurred
+          src={data as string}
+          alt={data as string}
+          height={320}
+          width={"100%"}
+          className="relative grow shrink-0 object-cover w-full"
+        />
+      </Skeleton>
+    </div>
+  );
+};
+
+const ProductsDIsplay: React.FC<{
+  tabContents: any[];
+}> = ({ tabContents }) => {
   const router = useRouter();
+  console.log(tabContents);
+  const [newTabContents, setNewTabContent] = useState(tabContents);
+
+  useEffect(() => {
+    setNewTabContent(tabContents);
+  }, [tabContents]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-      {tabContents.map((product, index) => (
-        <div
+      {newTabContents?.map((product, index) => (
+        <Link
           key={index}
           className="bg-[#2B2B2B] rounded-xl pb-5 shadow-md hover:scale-105 transition-transform cursor-pointer"
-          onClick={() => router.push(`/products/${product.itemId}`)}
+          // onClick={() => router.push(`/products/${Number(index)}`)}
+          href={`/products/${Number(index)}`}
         >
           {/* Product Image */}
-          <div className="overflow-hidden rounded-tl-xl rounded-tr-xl mb-4">
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={300}
-              height={300}
-              className="object-cover rounded-tl-xl rounded-tr-xl w-full h-[300px]"
+          <div className="flex flex-col w-full h-[300px] overflow-hidden rounded-tl-xl rounded-tr-xl mb-4">
+            <GetImage
+              nftContract={product.nftContract}
+              tokenId={product.tokenId}
             />
           </div>
 
@@ -46,7 +89,7 @@ const ProductsDIsplay: React.FC<{ tabContents: any[] }> = ({ tabContents }) => {
                   Price
                 </strong>{" "}
                 <span className={`text-lg ${space.className}`}>
-                  {product.price}
+                  {Number(product.price)}
                 </span>
               </p>
               <p className="flex flex-col">
@@ -61,7 +104,7 @@ const ProductsDIsplay: React.FC<{ tabContents: any[] }> = ({ tabContents }) => {
               </p>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

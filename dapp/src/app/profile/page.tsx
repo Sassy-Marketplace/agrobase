@@ -197,14 +197,14 @@ const Page = () => {
                     </Button>
                     <Button
                       as={Link}
-                      href="marketplace"
+                      href="/profile/list-items"
                       className="bg-[#03ed0e] text-black rounded-full py-7"
                     >
                       Add Products
                     </Button>
                     <Button
                       as={Link}
-                      href="/campaigns"
+                      href="/profile/campaigns"
                       className="border-[#03ed0e] border-2 bg-transparent rounded-full py-7"
                     >
                       Create Campaign

@@ -9,6 +9,8 @@ import { campaigns } from "../campaigns/dummy";
 import CampaignsDisplay from "@/components/campaigns/CampaignsDisplay";
 import { useRead } from "@/utils/fetchContracts";
 import { useAccount } from "wagmi";
+import { Address } from "viem";
+import { arrayBuffer } from "stream/consumers";
 // 03ED0E
 
 const MarketPlacePage: React.FC = () => {
@@ -25,16 +27,7 @@ const MarketPlacePage: React.FC = () => {
     functionName: "fetchAllMarketItems",
     contractName: "marketFactory",
   });
-
-  // const fetchNFTDetails = async () => {
-  //   const {
-  //     data: nftData,
-  //     error: nftError,
-  //     isLoading: nftLoading,
-  //   } = useRead({
-  //     functionName: "",
-  //   });
-  // };
+  console.log("Marketplace items", marketPlaceItems);
 
   useEffect(() => {
     if (marketPlaceError) {
@@ -45,20 +38,9 @@ const MarketPlacePage: React.FC = () => {
   useEffect(() => {
     if (marketPlaceItems) {
       //@ts-expect-error
-      const formattedItems = marketPlaceItems.map((item) => ({
-        ...item,
-        itemId: Number(item.itemId),
-        price: Number(item.price),
-        tokenId: Number(item.tokenId),
-      }));
-      console.log(`formatted item: `, formattedItems);
-      setMarketItems(formattedItems);
+      setMarketItems(marketPlaceItems);
     }
   }, [marketPlaceItems, marketItems]);
-
-  console.log("marketPlaceItems  is loading: ", marketPlaceLoading);
-
-  console.log("marketplace  data: ", marketItems);
 
   return (
     <div className="h-full bg-[#042B2B] flex flex-col justify-between items-center text-white w-full">

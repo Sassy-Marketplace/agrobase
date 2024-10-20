@@ -15,7 +15,7 @@ export const CTA = ({
 }) => {
   return (
     <div className="lg:w-1/3 rounded-xl shadow-[#03ed0e] shadow-md bg-[#042B2B] p-4 flex flex-col gap-6">
-      <div>
+      <div className="flex flex-col gap-2">
         <p
           className={`w-full text-[#03ed0e] font-semibold text-lg ${lato.className}`}
         >

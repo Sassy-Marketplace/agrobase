@@ -14,6 +14,12 @@ interface UserData {
   description?: string;
   businessDescription?: string;
   accountType?: string;
+  businessSymbol?: string;
+  symbol?: string;
+  store?: Address;
+  user?: Address;
+  businessOwner?: Address;
+  tokenboundAddr?: Address;
 }
 
 // Define the type of the context value
@@ -23,6 +29,7 @@ interface AgrobaseContextType {
   newUserData: UserData;
   statusBiz: {} | boolean | null;
   setNewUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
+  allProfiles: any;
 }
 
 // Initialize the context with null as a default value but type it properly
@@ -37,6 +44,12 @@ export const AgrobaseContext = createContext<AgrobaseContextType>({
     description: "",
     businessDescription: "",
     accountType: "",
+    businessSymbol: "",
+    symbol: "",
+    store: zeroAddress,
+    user: zeroAddress,
+    businessOwner: zeroAddress,
+    tokenboundAddr: zeroAddress,
   },
 
   statusBiz: false || null,
@@ -50,11 +63,18 @@ export const AgrobaseContext = createContext<AgrobaseContextType>({
     description: "",
     businessDescription: "",
     accountType: "",
+    businessSymbol: "",
+    symbol: "",
+    store: zeroAddress,
+    user: zeroAddress,
+    businessOwner: zeroAddress,
+    tokenboundAddr: zeroAddress,
   },
 
   address: zeroAddress,
 
   setNewUserData: () => {},
+  allProfiles: [],
 });
 
 interface Props {
@@ -63,6 +83,7 @@ interface Props {
 
 const AgrobaseProvider = ({ children }: Props) => {
   const [newUserData, setNewUserData] = useState<any>(null);
+  const [newMarketItem, setNewMarketItem] = useState<any>(null);
 
   const { address, isConnected } = useAccount();
 
@@ -97,6 +118,7 @@ const AgrobaseProvider = ({ children }: Props) => {
     statusBiz,
     newUserData,
     setNewUserData,
+    allProfiles,
   };
   return (
     <AgrobaseContext.Provider value={contextValue}>

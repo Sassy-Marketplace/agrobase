@@ -1,23 +1,26 @@
 import { space, work } from "@/components/Font";
 import { AboutProduct } from "@/components/landing/trending/AboutProduct";
-import Image from "next/image";
 import React from "react";
-import { Cards } from "./interface";
+import { useAgrobaseContext } from "@/context";
+import marketAbi from "@/utils/abis/marketAbi.json";
+import { useReadContract } from "wagmi";
+import { GetImage } from "@/components/products/ProductsDisplay";
 
-export const Card = ({ icon, src, name, location }: Cards) => {
+export const Card = ({ item }: { item: any }) => {
+  const { userData } = useAgrobaseContext();
   return (
     <div className="rounded-t-xl flex flex-col hover:scale-95 transition-transform mt-4">
-      <Image
-        className="w-full"
-        src={src}
-        alt="profile"
-        width={240}
-        height={240}
-      />
+      {/* {data?.map((item, index) => { */}
+      {/* <div> */}
+      <GetImage nftContract={item?.nftContract} tokenId={item?.tokenId} />
       <div
         className={`mb-1 p-6 rounded-b-3xl bg-[#2b2b2b] flex flex-col gap-6`}
       >
-        <AboutProduct product={name} src={icon} location={location} />
+        <AboutProduct
+          product={item?.name}
+          src={""}
+          location={userData?.businessLocation}
+        />
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
             <span
@@ -28,7 +31,7 @@ export const Card = ({ icon, src, name, location }: Cards) => {
             <span
               className={`font-regular text-white text-sm ${space.className}`}
             >
-              1.63 ETH
+              {Number(item?.price)} ETH
             </span>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -45,6 +48,8 @@ export const Card = ({ icon, src, name, location }: Cards) => {
           </div>
         </div>
       </div>
+      {/* </div> */}
+      {/* })} */}
     </div>
   );
 };

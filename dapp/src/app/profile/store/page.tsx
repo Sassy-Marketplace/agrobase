@@ -14,16 +14,14 @@ const Store = () => {
       <NavBar />
       <div className="flex flex-col md:flex-row justify-between w-[80%] mx-auto mt-[3rem] gap-20">
         <Jumbotron
-          guide={"Create and Sell Healthy Agro-Products"}
-          name={`Welcome back, ${userData?.businessName}`}
-          href1={"list-items"}
-          href2={"create-products"}
+          guide={"Create and Sell Healthy Agro-Products."}
+          name={`Welcome back, ${userData?.businessName}.`}
+          href1={"profile/list-items"}
           btn1={"List New Item"}
-          btn2={"Create Market Item"}
         />
         <CTA
-          motive={"Uniting Hearts for a Better tomorrow"}
-          guide={"Create a Campaign and Achieve that Life Changing Goal"}
+          motive={"Uniting Hearts for a Better tomorrow."}
+          guide={"Create a Campaign and Achieve that Life Changing Goal."}
           btn1={"My Campaign"}
           href1={"profile/campaigns"}
         />

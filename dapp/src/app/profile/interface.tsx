@@ -13,8 +13,8 @@ export interface Details {
 }
 
 export interface Cards {
-  src: string;
-  icon: string;
-  name: string;
-  location: string;
+  src?: string;
+  icon?: string;
+  name?: string;
+  location?: string;
 }
