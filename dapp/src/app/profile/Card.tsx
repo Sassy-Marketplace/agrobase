@@ -19,7 +19,7 @@ export const Card = ({ item }: { item: any }) => {
         <AboutProduct
           product={item?.name}
           src={""}
-          location={userData?.businessLocation}
+          location={userData?.businessLocation || ""}
         />
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">

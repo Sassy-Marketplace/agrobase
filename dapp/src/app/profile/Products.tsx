@@ -32,7 +32,7 @@ export const Products = () => {
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
-        {data?.map((item, index) => <Card item={item} />)}
+        {(data as any[])?.map((item, index) => <Card item={item} />)}
       </div>
       <Button
         as={Link}

@@ -9,15 +9,15 @@ import { Button, Link } from "@nextui-org/react";
 import marketAbi from "@/utils/abis/marketAbi.json";
 import { useRead } from "@/utils/fetchContracts";
 import { GetImage } from "@/components/products/ProductsDisplay";
-import { useAgrobaseContext } from "@/context";
+import { UserData, useAgrobaseContext } from "@/context";
 import { useWriteContract } from "wagmi";
 import { parseEther } from "viem";
 import { toast } from "react-toastify";
 
-const ProductPage = ({ params }: { params: number }) => {
+const ProductPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   console.log(params, id);
-  const [itemDetail, setItemDetail] = useState();
+  const [itemDetail, setItemDetail] = useState<any>();
   const [idSeller, setIdSeller] = useState();
   const { allProfiles } = useAgrobaseContext();
 
@@ -32,13 +32,14 @@ const ProductPage = ({ params }: { params: number }) => {
 
   useEffect(() => {
     if ((marketPlaceItems as any[])?.length > 0) {
-      setItemDetail(marketPlaceItems[Number(id)]);
+      setItemDetail((marketPlaceItems as any[])[Number(id)]);
       console.log("all Profiles", allProfiles);
 
       // Get the seller's profile ID
       const profileIdArray = (allProfiles as any[])?.filter(
         (it) =>
-          marketPlaceItems[Number(id)]?.seller === it.businessOwner || it.user
+          (marketPlaceItems as any[])[Number(id)]?.seller ===
+            it.businessOwner || it.user
       );
 
       const profileId =
@@ -73,12 +74,12 @@ const ProductPage = ({ params }: { params: number }) => {
     try {
       writeContract({
         abi: marketAbi,
-        address: userData?.store,
+        address: (userData as UserData)?.store!,
         functionName: "purchaseItem",
         args: [Number(itemDetail?.tokenId)],
         value: parseEther(String(itemDetail?.price)),
       });
-      isSuccess && console.log(userData?.store, Number(itemDetail?.tokenId));
+      // isSuccess && console.log(userData?.store, Number(itemDetail?.tokenId));
       toast.success("Successfully purchased item");
     } catch (error) {
       console.error(error);
@@ -169,7 +170,7 @@ const ProductPage = ({ params }: { params: number }) => {
                   <strong
                     className={`text-white text-[1.1rem] ${work.className}`}
                   >
-                    {userData?.businessName}
+                    {(userData as UserData)?.businessName}
                   </strong>
                 </div>
 
@@ -181,7 +182,7 @@ const ProductPage = ({ params }: { params: number }) => {
 
                 <TruncatedText
                   maxlength={300}
-                  text={userData?.businessDescription}
+                  text={(userData as UserData)?.businessDescription || ""}
                 />
 
                 <h2

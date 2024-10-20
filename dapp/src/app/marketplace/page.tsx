@@ -37,8 +37,7 @@ const MarketPlacePage: React.FC = () => {
 
   useEffect(() => {
     if (marketPlaceItems) {
-      //@ts-expect-error
-      setMarketItems(marketPlaceItems);
+      setMarketItems(marketPlaceItems as any[]);
     }
   }, [marketPlaceItems, marketItems]);
 

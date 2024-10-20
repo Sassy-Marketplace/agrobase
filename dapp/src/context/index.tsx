@@ -4,7 +4,7 @@ import { createContext, useState, ReactNode, useContext } from "react";
 import { Address, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
-interface UserData {
+export interface UserData {
   profileID: number;
   username?: string;
   name?: string;
@@ -121,6 +121,7 @@ const AgrobaseProvider = ({ children }: Props) => {
     allProfiles,
   };
   return (
+    //@ts-expect-error
     <AgrobaseContext.Provider value={contextValue}>
       {children}
     </AgrobaseContext.Provider>
