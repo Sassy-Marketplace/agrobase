@@ -52,7 +52,7 @@ const CampaignsDisplay : React.FC<{campaigns: ICampaign[]}> = ({campaigns}) => {
                     </div>
                 </div>
                 <Button className={`px-[3rem] py-[1.3rem] rounded-[0.9rem] bg-[#042B2B] text-white border-[1px] border-[#03ED0E] w-full my-5 ${lato.className}`} onClick={()=>router.push(`/campaigns/${campaign.id}`)}>
-                                Join
+                                Invest
                             </Button>
                 </div>
                 ))}
