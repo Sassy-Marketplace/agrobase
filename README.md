@@ -1,6 +1,8 @@
 # AgroBase 🌱
 
-AgroBase is a blockchain-based platform designed to tackle the challenges of hunger, poverty, and unemployment in Nigeria by revitalizing agriculture and empowering youth to invest in the sector. Our mission is to create a sustainable agricultural ecosystem, revolutionizing how agriculture is managed, financed, and connected to markets through the use of decentralized technologies.
+AgroBase is blockchain-driven, using agriculture as one of the strong points towards ensuring that the twins of hunger, poverty, and unemployment are handled, more so in Nigeria. We want to create a sustainable agricultural ecosystem and revolutionize how we manage, finance, and connect agriculture to markets with the help of blockchain.
+
+> [Check out the Project Here](https://agrobase.vercel.app/) | [Video Demo](https://www.loom.com/share/12faa858896c42a48015b68c328f7f07?sid=be88ecf3-65ff-4c30-8a61-d313185fab30)
 
 ## 🌍 **Why We Are Participating for Based Africa**
 
@@ -10,7 +12,7 @@ Agriculture was the backbone of Nigeria's economy, contributing over 60% of the 
 
 ## 🚀 **Our Mission**
 
-AgroBase aims to digitize Africa's agricultural ecosystem and bring it on-chain. We are focused on creating an MVP that connects all players in the agricultural supply chain (farmers, buyers, mini-agrobusinesses, and AgroLogistics) for business purposes. Our goal is to provide small-scale farmers and agrobusinesses with better access to markets, transparent pricing, and streamlined supply chains.
+AgroBase is working on digitizing Africa's agricultural ecosystem and bringing it on-chain. For that purpose, currently we are in the process of building an MVP aimed at connecting all players in the chain of agriculture-farmers, buyers, mini-agrobusinesses, and AgroLogistics-for business purposes. In this way, we are able to provide small-scale farmers and agrobusinesses with better access to markets, price transparency, and smoother supply chains.
 
 ## 🛠 **Key Features**
 
