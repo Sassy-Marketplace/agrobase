@@ -1,11 +1,14 @@
 "use client";
 import {
-  Navbar,
+  Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
   Button,
+  NavbarMenuToggle,
+  NavbarMenuItem,
+  NavbarMenu,
 } from "@nextui-org/react";
 import { Basenames } from "./basenames";
 import { ConnectWallet } from "@coinbase/onchainkit/wallet";
@@ -14,80 +17,140 @@ import AfroBaseLogo from "@/assets/logo.svg";
 import Image from "next/image";
 import { lato, mont, work } from "./Font";
 import { usePathname } from "next/navigation"; // Import usePathname hook
+import { useState } from "react";
 
 export default function NavBar() {
   const { address } = useAccount();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const account = useAccount();
   const pathname = usePathname(); // Get the current path
 
   // Function to check if a page is active
   const isActive = (path: string) => pathname === path;
-
+  // return (
   return address ? (
-    <Navbar className="bg-transparent w-full flex justify-between">
+    <NextUINavbar
+      maxWidth="full"
+      className="bg-transparent"
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarBrand as={Link} href={`/`}>
         <Image src={AfroBaseLogo} alt="logo" />
       </NavbarBrand>
-      <div className="flex items-center justify-between w-1/2 gap-12">
-        <NavbarContent
-          className={`flex md:flex-row font-semibold text-sm gap-12 ${work.className}`}
-        >
-          <NavbarItem>
-            <Link
-              color="foreground"
-              href="/marketplace"
-              className={isActive("/marketplace") ? "text-[#03ed0e]" : ""}
-            >
-              Marketplace
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              color="foreground"
-              href="/communities"
-              className={isActive("/communities") ? "text-[#03ed0e]" : ""}
-            >
-              Communities
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              color="foreground"
-              href="/profile"
-              aria-current={isActive("/profile") ? "page" : undefined}
-              className={isActive("/profile") ? "text-[#03ed0e]" : ""}
-            >
-              My Profile
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              color="foreground"
-              href="/campaigns"
-              className={isActive("/campaigns") ? "text-[#03ed0e]" : ""}
-            >
-              Campaigns
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-        <NavbarContent>
-          <NavbarItem
-            className={`font-semibold text-sm text-[#000000] bg-[#03ed0e] rounded-full ${lato.className}`}
+      <NavbarContent
+        className={`hidden md:flex md:flex-row font-semibold text-sm gap-12 ${work.className}`}
+        justify="center"
+      ></NavbarContent>
+
+      <NavbarContent justify="end">
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+      </NavbarContent>
+      <NavbarContent justify="end" className="hidden sm:flex">
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href="/marketplace"
+            className={isActive("/marketplace") ? "text-[#03ed0e]" : ""}
           >
-            {!address && <ConnectWallet />}
-            {account.status === "connected" && (
-              <Basenames address={account.addresses?.[0]} />
-            )}
-          </NavbarItem>
-        </NavbarContent>
-      </div>
-    </Navbar>
+            Marketplace
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href="/communities"
+            className={isActive("/communities") ? "text-[#03ed0e]" : ""}
+          >
+            Communities
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href="/profile"
+            aria-current={isActive("/profile") ? "page" : undefined}
+            className={isActive("/profile") ? "text-[#03ed0e]" : ""}
+          >
+            My Profile
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href="/campaigns"
+            className={isActive("/campaigns") ? "text-[#03ed0e]" : ""}
+          >
+            Campaigns
+          </Link>
+        </NavbarItem>
+        <NavbarItem
+          className={`font-semibold text-sm text-[#000000] bg-[#03ed0e] rounded-full ${lato.className}`}
+        >
+          {!address && <ConnectWallet />}
+          {account.status === "connected" && (
+            <Basenames address={account.addresses?.[0]} />
+          )}
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarMenu>
+        <NavbarMenuItem>
+          <Link
+            color="foreground"
+            href="/marketplace"
+            className={isActive("/marketplace") ? "text-[#03ed0e]" : ""}
+          >
+            Marketplace
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            color="foreground"
+            href="/communities"
+            className={isActive("/communities") ? "text-[#03ed0e]" : ""}
+          >
+            Communities
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            color="foreground"
+            href="/profile"
+            aria-current={isActive("/profile") ? "page" : undefined}
+            className={isActive("/profile") ? "text-[#03ed0e]" : ""}
+          >
+            My Profile
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            color="foreground"
+            href="/campaigns"
+            className={isActive("/campaigns") ? "text-[#03ed0e]" : ""}
+          >
+            Campaigns
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem
+          className={`font-semibold text-sm text-[#000000] bg-[#03ed0e] rounded-full ${lato.className}`}
+        >
+          {!address && <ConnectWallet />}
+          {account.status === "connected" && (
+            <Basenames address={account.addresses?.[0]} />
+          )}
+        </NavbarMenuItem>
+      </NavbarMenu>
+    </NextUINavbar>
   ) : (
-    <Navbar className="bg-[transparent]">
+    <NextUINavbar onMenuOpenChange={setIsMenuOpen} className="bg-[transparent]">
       <NavbarBrand as={Link} href={`/`}>
         <Image src={AfroBaseLogo} alt="logo" />
       </NavbarBrand>
-      <NavbarContent className="sm:flex gap-12" justify="center">
+
+      <NavbarContent className="hidden sm:flex gap-12" justify="center">
         <NavbarItem>
           <Link
             className={`font-light text-[#ffffff] text-sm ${mont.className} ${
@@ -120,6 +183,7 @@ export default function NavBar() {
           </Link>
         </NavbarItem>
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem>
           <Button
@@ -131,7 +195,45 @@ export default function NavBar() {
             Go to App
           </Button>
         </NavbarItem>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
       </NavbarContent>
-    </Navbar>
+
+      <NavbarMenu>
+        <NavbarMenuItem>
+          <Link
+            className={`font-light text-[#ffffff] text-sm ${mont.className} ${
+              isActive("/") ? "bg-[#2c2c2c] p-1 rounded-lg" : ""
+            }`}
+            aria-current={isActive("/") ? "page" : undefined}
+            href="/"
+          >
+            Home
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            href="/blog"
+            className={`font-light text-[#ffffff] text-sm ${mont.className} ${
+              isActive("/blog") ? "bg-[#2c2c2c] p-1 rounded-lg" : ""
+            }`}
+          >
+            Blog
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            href="/whitepaper"
+            className={`font-light text-[#ffffff] text-sm ${mont.className} ${
+              isActive("/whitepaper") ? "bg-[#2c2c2c] p-1 rounded-lg" : ""
+            }`}
+          >
+            Whitepaper
+          </Link>
+        </NavbarMenuItem>
+      </NavbarMenu>
+    </NextUINavbar>
   );
 }
