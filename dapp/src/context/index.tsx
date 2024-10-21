@@ -100,8 +100,8 @@ const AgrobaseProvider = ({ children }: Props) => {
       : "getAllInvestorProfiles",
   });
 
-  const profileIdArray = (allProfiles as any[])?.filter(
-    (it) => address === it.businessOwner || it.user
+  const profileIdArray = (allProfiles as any[])?.filter((it) =>
+    statusBiz ? address === it.businessOwner : address === it.user
   );
   const profileId =
     profileIdArray?.length > 0 ? profileIdArray[0]?.profileID : null;
@@ -111,6 +111,8 @@ const AgrobaseProvider = ({ children }: Props) => {
     functionName: statusBiz ? "getBusinessProfile" : "getInvestorProfile",
     args: [profileId],
   });
+
+  console.log(statusBiz, profileIdArray, allProfiles, userData, address);
 
   const contextValue = {
     address,

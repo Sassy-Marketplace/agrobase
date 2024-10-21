@@ -18,23 +18,23 @@ import { Button } from "@nextui-org/react";
 const ConnectionPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
 
-  const { address, isConnected } = useAccount();
+  const { address: connectedAddress, isConnected } = useAccount();
   const account = useAccount();
   const route = useRouter();
 
   const { data: statusBiz } = useRead({
     contractName: "core",
     functionName: "isBusiness",
-    args: [address],
+    args: [connectedAddress],
   });
 
   const { data: statusInv } = useRead({
     contractName: "core",
     functionName: "isInvestor",
-    args: [address],
+    args: [connectedAddress],
   });
 
-  console.log(address);
+  console.log(connectedAddress);
 
   useEffect(() => {
     if (typeof statusBiz === "boolean" || typeof statusInv === "boolean") {
@@ -43,7 +43,7 @@ const ConnectionPage: React.FC = () => {
           console.log(statusBiz, statusInv);
           route.push("/marketplace");
         } else {
-          console.log(address);
+          console.log(connectedAddress);
           route.push("/create-account");
         }
       }
@@ -75,7 +75,7 @@ const ConnectionPage: React.FC = () => {
         <div
           className={`md:w-1/2 w-full bg-[#042B2B] flex flex-col items-center justify-center py-8 md:py-0 h-full ${libre.className}`}
         >
-          {!address && (
+          {!connectedAddress && (
             <div className="text-center md:text-left">
               <h1
                 className={`text-white md:text-5xl text-4xl font-bold mb-4 ${work.className}`}
@@ -92,7 +92,7 @@ const ConnectionPage: React.FC = () => {
               <div
                 className={`py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] w-full ${lato.className}`}
               >
-                <Basenames address={address} />
+                <Basenames address={connectedAddress} />
               </div>
             </div>
           )}

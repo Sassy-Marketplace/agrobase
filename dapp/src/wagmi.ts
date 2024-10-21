@@ -6,7 +6,7 @@ export function getConfig() {
   return createConfig({
     chains: [baseSepolia],
     connectors: [
-      // injected(),
+      injected(),
       coinbaseWallet({
         appName: "Create Wagmi",
         preference: "smartWalletOnly",

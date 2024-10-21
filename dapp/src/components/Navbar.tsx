@@ -89,10 +89,12 @@ export default function NavBar() {
         <NavbarItem
           className={`font-semibold text-sm text-[#000000] bg-[#03ed0e] rounded-full ${lato.className}`}
         >
-          {!address && <ConnectWallet />}
-          {account.status === "connected" && (
-            <Basenames address={account.addresses?.[0]} />
-          )}
+          <div>
+            {!address && <ConnectWallet />}
+            {account.status === "connected" && (
+              <Basenames address={account.addresses?.[0]} />
+            )}
+          </div>
         </NavbarItem>
       </NavbarContent>
 
