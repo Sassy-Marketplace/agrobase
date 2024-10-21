@@ -12,8 +12,12 @@ import Image from "next/image";
 import { fontGrotesk, lato, libre, work } from "@/components/Font";
 import { useRead } from "@/utils/fetchContracts";
 import { useRouter } from "next/navigation";
+import { Basenames } from "@/components/basenames";
+import { Button } from "@nextui-org/react";
 
 const ConnectionPage: React.FC = () => {
+  const [isLoading, setLoading] = useState(false);
+
   const { address, isConnected } = useAccount();
   const account = useAccount();
   const route = useRouter();
@@ -86,9 +90,11 @@ const ConnectionPage: React.FC = () => {
                 <br />
                 There are several wallet providers.
               </p>
-              <ConnectWallet
+              <div
                 className={`py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] w-full ${lato.className}`}
-              />
+              >
+                <Basenames address={address} />
+              </div>
             </div>
           )}
           {account.status == "connected" && !(statusBiz || statusInv) && (
@@ -100,12 +106,15 @@ const ConnectionPage: React.FC = () => {
               >
                 <Name address={account.addresses?.[0]} chain={base} />
               </div>
-
-              <button
-                className={`py-3 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px] ${lato.className}`}
+              <Button
+                as={Link}
+                href="/create-account"
+                isLoading={isLoading}
+                onClick={() => setLoading(true)}
+                className={`py-2 bg-[#03ED0E] text-[#000] font-semibold rounded-full hover:bg-green-500 transition px-[80px] text-[18px] md:text-[20px] ${lato.className}`}
               >
-                <Link href="/create-account">Create Account</Link>
-              </button>
+                {isLoading ? "loading" : "Create Account"}
+              </Button>
             </div>
           )}
         </div>

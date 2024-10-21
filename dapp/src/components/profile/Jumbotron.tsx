@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { lato, work } from "../Font";
 import { Button, Link } from "@nextui-org/react";
 
@@ -13,6 +14,7 @@ export const Jumbotron = ({
   btn1: string;
   href1: string;
 }) => {
+  const [isLoading, setLoading] = useState(false);
   return (
     <div className="md:w-2/3 rounded-xl bg-[#03ed0e] border-2 border-[#042B2B] py-6 px-10 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -29,6 +31,8 @@ export const Jumbotron = ({
       </div>
       <div className="flex justify-center">
         <Button
+          isLoading={isLoading}
+          onClick={() => setLoading(true)}
           className={`w-full bg-[#042b2b] p-2 text-[#03ed0e] rounded-xl font-regular text-sm ${work.className}`}
           as={Link}
           href={`/${href1}`}

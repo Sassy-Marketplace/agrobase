@@ -21,6 +21,7 @@ import { coreAddress } from "@/utils/contractAddresses";
 import { useAgrobaseContext } from "@/context";
 import { pinFileToIPFS } from "@/utils/uploadToIpfs";
 import { parseEther } from "viem";
+import { Button } from "@nextui-org/react";
 
 const page = () => {
   const router = useRouter();
@@ -30,6 +31,7 @@ const page = () => {
   const [username, setUsername] = useState("");
   const [uri, setUri] = useState("");
   const [price, setPrice] = useState<number>(0);
+  const [isLoading, setLoading] = useState(false);
   const [image, setImage] = useState<FileList | null>();
 
   const { data, writeContract, isPending, isSuccess, isError, error } =
@@ -84,14 +86,8 @@ const page = () => {
       });
     } else {
       try {
-        // writeContract({
-        //   abi: coreAbi,
-        //   address: coreAddress,
-        //   functionName: "listItemForSale",
-        //   args: [username, price, uri],
-        //   value: parseEther("0.0000000001"),
-        // });
         // Perform contract write operation here
+        setLoading(true);
         const imgUrl = await pinFileToIPFS(image);
         if (imgUrl) {
           toast.success("Upload Successful");
@@ -107,6 +103,7 @@ const page = () => {
             type: "error",
             autoClose: 3000,
           });
+        setLoading(false);
       }
     }
   };
@@ -189,13 +186,13 @@ const page = () => {
               </div>
 
               {/* Submit Button */}
-              <button
-                disabled={isPending}
+              <Button
                 onClick={handleListItem}
+                isLoading={isLoading}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >
-                Add Item
-              </button>
+                {isLoading ? "Adding Market Item" : "Add Item"}
+              </Button>
             </div>
           </div>
         </div>

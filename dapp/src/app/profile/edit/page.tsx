@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import coreAbi from "@/utils/abis/coreAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
 import { useAgrobaseContext } from "@/context";
+import { Button } from "@nextui-org/react";
 
 const EditProfile: React.FC = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const EditProfile: React.FC = () => {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const [symbol, setSymbol] = useState("");
 
   const { data, writeContract, isPending, isSuccess, isError } =
@@ -52,6 +54,7 @@ const EditProfile: React.FC = () => {
     } else {
       try {
         // Perform contract write operation here
+        setLoading(true);
 
         const res = writeContract({
           abi: coreAbi,
@@ -62,6 +65,7 @@ const EditProfile: React.FC = () => {
           args: [username, about, location, symbol, userData?.profileID],
         });
       } catch (err) {
+        setLoading(false);
         isError &&
           toast("Account editing failed", {
             className: "bg-red-500 text-white",
@@ -168,13 +172,13 @@ const EditProfile: React.FC = () => {
               </div>
 
               {/* Submit Button */}
-              <button
-                disabled={isPending}
+              <Button
                 onClick={handleEditAccount}
+                isLoading={isLoading}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >
-                Edit Account
-              </button>
+                {isLoading ? "Editing" : "Edit Account"}
+              </Button>
             </div>
           </div>
         </div>

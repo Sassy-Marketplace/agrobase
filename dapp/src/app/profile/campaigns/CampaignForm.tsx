@@ -12,6 +12,7 @@ import { useWriteContract } from "wagmi";
 import coreAbi from "@/utils/abis/coreAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
 import { ToastContainer, toast } from "react-toastify";
+import { Button } from "@nextui-org/react";
 
 const CampaignForm: React.FC = () => {
   const [name, setName] = useState("");
@@ -22,6 +23,7 @@ const CampaignForm: React.FC = () => {
   const [nftAddress, setNftAddress] = useState("");
 
   const [isPending, setIsPending] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -46,6 +48,8 @@ const CampaignForm: React.FC = () => {
 
   const handleSubmit = () => {
     try {
+      setLoading(true);
+
       const res = writeContract({
         abi: coreAbi,
         address: coreAddress,
@@ -145,13 +149,14 @@ const CampaignForm: React.FC = () => {
           </div>
 
           {/* Submit Button */}
-          <button
-            disabled={isPending}
+
+          <Button
             onClick={handleSubmit}
+            isLoading={isLoading}
             className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
           >
-            Create Campaign
-          </button>
+            {isLoading ? "Creating" : "Create Campaign"}
+          </Button>
         </div>
       </div>
       <ToastContainer />

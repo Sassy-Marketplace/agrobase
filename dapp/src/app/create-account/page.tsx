@@ -11,6 +11,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { useEffect, useState } from "react";
 import coreAbi from "@/utils/abis/coreAbi.json";
 import { coreAddress } from "@/utils/contractAddresses";
+import { Button, Link } from "@nextui-org/react";
 
 const ConnectAccount: React.FC = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const ConnectAccount: React.FC = () => {
   const [accountType, setAccountType] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const { data, writeContract, isPending, isSuccess, isError } =
     useWriteContract();
@@ -53,6 +55,7 @@ const ConnectAccount: React.FC = () => {
         // Perform contract write operation here
         console.log(address);
         console.log(data);
+        setLoading(true);
 
         const res = writeContract({
           abi: coreAbi,
@@ -64,6 +67,7 @@ const ConnectAccount: React.FC = () => {
 
         console.log(res);
       } catch (err) {
+        setLoading(false);
         isError &&
           toast("Account creation failed", {
             className: "bg-red-500 text-white",
@@ -172,13 +176,13 @@ const ConnectAccount: React.FC = () => {
               </div>
 
               {/* Submit Button */}
-              <button
-                disabled={isPending}
+              <Button
                 onClick={handleCreateAccount}
+                isLoading={isLoading}
                 className={`w-full py-3 bg-[#03ED0E] text-black font-semibold rounded-[20px] hover:bg-green-500 transition text-[18px] md:text-[19px] ${lato.className}`}
               >
-                Create account
-              </button>
+                {isLoading ? "Creating" : "Create Account"}
+              </Button>
             </div>
           </div>
         </div>
