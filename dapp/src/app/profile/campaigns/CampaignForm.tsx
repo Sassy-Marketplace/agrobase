@@ -9,10 +9,12 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useWriteContract } from "wagmi";
-import coreAbi from "@/utils/abis/coreAbi.json";
-import { coreAddress } from "@/utils/contractAddresses";
+import campaignAbi from "@/utils/abis/campaignAbi.json";
+import campaignFacAbi from "@/utils/abis/campaignFactoryAbi.json";
+import { coreAddress, campaignfactory } from "@/utils/contractAddresses";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@nextui-org/react";
+import { useRead } from "@/utils/fetchContracts";
 
 const CampaignForm: React.FC = () => {
   const [name, setName] = useState("");
@@ -38,12 +40,22 @@ const CampaignForm: React.FC = () => {
     }
   }, [name, duration, goal, totalNfts, tokenAddress, nftAddress]);
 
+  // const {
+  //   data: campaignData,
+  //   error: campaignError,
+  //   isLoading: campaignLoading,
+  // } = useRead({
+  //   functionName: "fetchAllMarketItems",
+  //   contractName: "campaignFactory",
+  // });
+
   const {
     data,
     writeContract,
     isPending: Pending,
     isSuccess,
     isError,
+    error,
   } = useWriteContract();
 
   const handleSubmit = () => {
@@ -51,8 +63,8 @@ const CampaignForm: React.FC = () => {
       setLoading(true);
 
       const res = writeContract({
-        abi: coreAbi,
-        address: coreAddress,
+        abi: campaignFacAbi,
+        address: campaignfactory,
         functionName: "createCampaign",
         args: [name, duration, goal, totalNfts, tokenAddress, nftAddress],
       });
@@ -72,6 +84,10 @@ const CampaignForm: React.FC = () => {
         });
     }
   };
+
+  useEffect(() => {
+    console.log(error);
+  }, [isError]);
 
   return (
     <div className={`${work.className}`}>

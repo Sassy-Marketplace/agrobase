@@ -9,11 +9,10 @@ import {
 } from "./contractAddresses";
 import {
   useReadContract,
-  useSimulateContract,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Address } from "viem";
 
 export const contractConfigs = {

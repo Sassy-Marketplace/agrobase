@@ -34,7 +34,6 @@ const ConnectionPage: React.FC = () => {
     args: [address],
   });
 
-  console.log(statusBiz, statusInv);
   console.log(address);
 
   useEffect(() => {

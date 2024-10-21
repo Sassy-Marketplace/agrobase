@@ -164,7 +164,7 @@ export default function NavBar() {
         </NavbarItem>
         <NavbarItem>
           <Link
-            href="/blog"
+            href="https://mirror.xyz/0x5429e1Aa676abAD79e67a038dBA8B5Ab00af2054"
             className={`font-light text-[#ffffff] text-sm ${mont.className} ${
               isActive("/blog") ? "bg-[#2c2c2c] p-1 rounded-lg" : ""
             }`}
@@ -215,7 +215,7 @@ export default function NavBar() {
         </NavbarMenuItem>
         <NavbarMenuItem>
           <Link
-            href="/blog"
+            href="https://mirror.xyz/0x5429e1Aa676abAD79e67a038dBA8B5Ab00af2054"
             className={`font-light text-[#ffffff] text-sm ${mont.className} ${
               isActive("/blog") ? "bg-[#2c2c2c] p-1 rounded-lg" : ""
             }`}
